@@ -5,7 +5,7 @@ public class Usuario {
 	protected String nome, email, senha, tipo;
 
 	public Usuario() {
-		setCodigo(null);
+		setCodigo(0L);
 		setNome("");
 		setEmail("");
 		setSenha("");
@@ -23,7 +23,7 @@ public class Usuario {
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
-	public int getCodigo() {
+	public Long getCodigo() {
 		return codigo;
 	}
 
