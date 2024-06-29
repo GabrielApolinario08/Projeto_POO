@@ -3,10 +3,8 @@ public class Main {
 
         System.out.println("Caiao gay!");
         System.out.println("Caiao gay!");
-        System.out.println("Caiao gay!");System.out.println("Caiao gay!");
-
-
-
+        System.out.println("Caiao gay!");
+        System.out.println("Caiao gay!");
         System.out.println("poli gay");
     }
 }

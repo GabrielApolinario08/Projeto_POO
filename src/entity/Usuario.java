@@ -1,18 +1,26 @@
 package entity;
 
 public class Usuario {
-	protected int codigo;
+	protected long codigo;
 	protected String nome, email, senha, tipo;
 
 	public Usuario() {
-		this.codigo = 0;
-		this.nome = "";
-		this.email = "";
-		this.senha = "";
-		this.tipo = "";
+		setCodigo(null);
+		setNome("");
+		setEmail("");
+		setSenha("");
+		setTipo("");
 	}
 
-	public void setCodigo(int codigo) {
+	public Usuario(Long codigo, String nome, String email, String senha, String tipo) {
+		setCodigo(codigo);
+		setNome(nome);
+		setEmail(email);
+		setSenha(senha);
+		setTipo(tipo);
+	}
+
+	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
 
