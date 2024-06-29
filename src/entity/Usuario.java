@@ -1,3 +1,5 @@
+package entity;
+
 public class Usuario {
 	protected int codigo;
 	protected String nome, email, senha, tipo;
