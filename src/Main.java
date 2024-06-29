@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.io.*;
 import java.util.Scanner;
 public class Main {
@@ -7,13 +8,11 @@ public class Main {
         String nome, email, senha, tipo;
 
         do {
-            System.out.println("------- Menu ---------");
-            System.out.println("Selecione as opções:");
-            System.out.println("1) Entrar");
-            System.out.println("2) Cadastrar");
-            System.out.println("3) Sair");
-            System.out.print("Informe a opção: ");
-            opc = entrada.nextInt();
+            opc = Integer.parseInt(JOptionPane.showInputDialog(null, "Selecione uma das opções:" +
+                    "\n1) Entrar" +
+                    "\n2) Cadastrar" +
+                    "\n3) Sair" +
+                    "\nInforme a opção:", "Menu", JOptionPane.QUESTION_MESSAGE));
 
             switch (opc) {
                 case 1:
