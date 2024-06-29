@@ -9,6 +9,7 @@ public class Controle {
             System.out.print("Nome: ");
 
         }
+        return true;
     }
 
 }
