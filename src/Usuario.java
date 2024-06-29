@@ -10,5 +10,25 @@ public class Usuario {
 		this.tipo = "";
 	}
 
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
 
 }
