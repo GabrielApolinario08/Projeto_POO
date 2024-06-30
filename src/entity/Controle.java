@@ -7,20 +7,18 @@ import java.util.Set;
 import java.util.Random;
 public class Controle {
     private BufferedWriter usuarioTxt;
+    private final String arquivo = "usuarios.txt";
 
     public Controle() {
         try {
-            usuarioTxt = new BufferedWriter(new FileWriter("usuarios.txt", true));
+            usuarioTxt = new BufferedWriter(new FileWriter(arquivo, true));
         } catch (IOException e) {
             System.err.println("Erro ao abrir o arquivo: " + e.getMessage());
         }
     }
 
-    public void fecha() throws IOException {
-        usuarioTxt.close();
-    }
-
     public void cadastrarCliente(Scanner entrada) throws IOException {
+        int cod;
             System.out.println("Cadastrar cliente");
             System.out.print("Nome: ");
             String nome = entrada.nextLine();
@@ -36,12 +34,21 @@ public class Controle {
                     break;
                 }
             }
-            Cliente cliente = new Cliente(01, nome, email, senha, "Cliente");
+        try {
+            cod = codigoAleatorio();
+            Cliente cliente = new Cliente(cod, nome, email, senha, "Cliente");
             usuarioTxt.write(cliente.toString());
             usuarioTxt.newLine();
             System.out.println("Cliente cadastrado com sucesso!");
+
+        }catch(Exception e) {
+            System.err.println(e.getMessage());
+
+        }
+
     }
     public void cadastrarProfissional(Scanner entrada) throws IOException {
+        int cod;
         System.out.println("Cadastrar profissional");
         System.out.print("Nome: ");
         String nome = entrada.nextLine();
@@ -59,13 +66,18 @@ public class Controle {
         }
         System.out.print("Área de atuação: ");
         String profissao = entrada.nextLine();
-        Profissional profissional = new Profissional(01, nome, email, senha, "Profissional", profissao);
-        usuarioTxt.write(profissional.toString());
-        usuarioTxt.newLine();
-        System.out.println("Profissional cadastrado com sucesso!");
+        try {
+            cod = codigoAleatorio();
+            Profissional profissional = new Profissional(cod, nome, email, senha, "Profissional", profissao);
+            usuarioTxt.write(profissional.toString());
+            usuarioTxt.newLine();
+            System.out.println("Profissional cadastrado com sucesso!");
+        }catch(Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 
-    public int codigoAleatorio() {
+    public int codigoAleatorio() throws Exception {
         Set<Integer> ids = new HashSet<>();
         try {
             FileReader fr = new FileReader("usuarios.txt");
@@ -88,15 +100,52 @@ public class Controle {
             e.printStackTrace();
         }
 
+        if (ids.size() == 1000) {
+            throw new Exception("Não há IDs disponíveis.");
+        }
+
         int cod;
         Random random = new Random();
         do {
-            cod = random.nextInt(100) + 1;
+            cod = random.nextInt(1000) + 1;
         } while (ids.contains(cod));
 
         return cod;
     }
+    public void logar(Scanner entrada) throws IOException {
+        boolean qlqr = true;
+        usuarioTxt.close ();
+        Usuario user = new Usuario();
 
 
+        while (qlqr) {
+            try {
+                System.out.println("Login");
+                System.out.println("Email: ");
+                user.setEmail(entrada.nextLine());
+                System.out.println("Senha: ");
+                user.setSenha(entrada.nextLine());
+                FileReader fr = new FileReader(arquivo);
+                BufferedReader br = new BufferedReader(fr);
+                while (br.ready()) {
+                    String linha = br.readLine();
+                    String[] campos = linha.split(";");
+                    if (campos[3].equals(user.getEmail())) {
+                        if (campos[4].equals(user.getSenha())) {
+                            System.out.println("login feito com sucesso!");
+                            qlqr = false;
+                        } else {
+                            throw new IllegalArgumentException("Senha inválida!");
+                        }
+                    } else {
+                        throw new IllegalArgumentException("Email inválido!");
+                    }
+                }
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 
 }

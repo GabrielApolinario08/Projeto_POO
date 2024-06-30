@@ -20,7 +20,7 @@ public class Main {
 
                 switch (opc) {
                     case 1:
-                        controle.fecha();
+                        controle.logar(entrada);
                         break;
                     case 2:
                         try {
@@ -60,5 +60,7 @@ public class Main {
                 JOptionPane.showMessageDialog(null, "Opção inválida. Clique em OK para continuar.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         } while (true);
+
+
     }
 }
