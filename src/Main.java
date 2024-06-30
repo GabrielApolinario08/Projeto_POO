@@ -9,30 +9,26 @@ public class Main {
         Controle controle = new Controle();
         int opc;
         String nome, email, senha, tipo;
-
         do {
             try {
-                opc = Integer.parseInt(JOptionPane.showInputDialog(null, "Selecione uma das opções:" +
-                        "\n1) Entrar" +
-                        "\n2) Cadastrar" +
-                        "\n3) Sair" +
-                        "\nInforme a opção:", "Menu", JOptionPane.QUESTION_MESSAGE));
+            	Object[] optionsMenu = {"Entrar", "Cadastrar", "Sair"};
+                opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu", 0, 3, null, optionsMenu, optionsMenu[0]);
+                
 
                 switch (opc) {
-                    case 1:
+                    case 0:
                         controle.logar(entrada);
                         break;
-                    case 2:
+                    case 1:
                         try {
-                            opc = Integer.parseInt(JOptionPane.showInputDialog(null, "Selecione uma das opções:" +
-                                    "\n1) Cadastrar cliente" +
-                                    "\n2) Cadastrar profissional" +
-                                    "\nInforme a opção:", "Menu - cadastrar", JOptionPane.QUESTION_MESSAGE));
+                        	Object[] optionsCadastro = {"Cadastrar cliente", "Cadastrar profissional"};
+                        	opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Cadastro", 0, 2, null, optionsCadastro, optionsCadastro[0]);
+                      
                             switch (opc) {
-                                case 1:
+                                case 0:
                                     controle.cadastrarCliente(entrada);
                                     break;
-                                case 2:
+                                case 1:
                                     controle.cadastrarProfissional(entrada);
                                     break;
                                 default:
@@ -46,7 +42,7 @@ public class Main {
                             JOptionPane.showMessageDialog(null, "Opção inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
-                    case 3:
+                    case 2:
                         JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
                         System.exit(0);
                     default:
