@@ -9,6 +9,6 @@ public class Profissional extends Usuario{
 
     @Override
     public String toString() {
-        return super.toString() + profissao;
+        return super.toString() + ";" + profissao;
     }
 }

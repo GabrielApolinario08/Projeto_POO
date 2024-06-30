@@ -34,6 +34,7 @@ public class Controle {
             usuarioTxt.write(cliente.toString());
             usuarioTxt.newLine();
             System.out.println("Cliente cadastrado com sucesso!");
+            usuarioTxt.close();
     }
     public void cadastrarProfissional(Scanner entrada) throws IOException {
         System.out.println("Cadastrar profissional");
