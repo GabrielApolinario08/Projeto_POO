@@ -11,41 +11,54 @@ public class Main {
         String nome, email, senha, tipo;
 
         do {
-            opc = Integer.parseInt(JOptionPane.showInputDialog(null, "Selecione uma das opções:" +
-                    "\n1) Entrar" +
-                    "\n2) Cadastrar" +
-                    "\n3) Sair" +
-                    "\nInforme a opção:", "Menu", JOptionPane.QUESTION_MESSAGE));
+            try {
+                opc = Integer.parseInt(JOptionPane.showInputDialog(null, "Selecione uma das opções:" +
+                        "\n1) Entrar" +
+                        "\n2) Cadastrar" +
+                        "\n3) Sair" +
+                        "\nInforme a opção:", "Menu", JOptionPane.QUESTION_MESSAGE));
 
-            switch (opc) {
-                case 1:
-                    controle.fecha();
-                    break;
-                case 2:
-                    opc = Integer.parseInt(JOptionPane.showInputDialog(null, "Selecione uma das opções:" +
-                    "\n1) Cadastrar cliente" +
-                    "\n2) Cadastrar profissional" +
-                    "\nInforme a opção:", "Menu - cadastrar", JOptionPane.QUESTION_MESSAGE));
-                    switch (opc) {
-                        case 1:
-                            controle.cadastrarCliente(entrada);
-                            break;
-                        case 2:
-                            controle.cadastrarProfissional(entrada);
-                            break;
-                        default:
-                            System.out.println("Opção inválida!");
-                            break;
-                    }
-                    break;
-                case 3:
-                    System.out.println("Fim do programa!");
-                    return;
-                default:
-                    System.out.println("Selecione uma opção válida.");
+                switch (opc) {
+                    case 1:
+                        controle.fecha();
+                        break;
+                    case 2:
+                        try {
+                            opc = Integer.parseInt(JOptionPane.showInputDialog(null, "Selecione uma das opções:" +
+                                    "\n1) Cadastrar cliente" +
+                                    "\n2) Cadastrar profissional" +
+                                    "\nInforme a opção:", "Menu - cadastrar", JOptionPane.QUESTION_MESSAGE));
+                            switch (opc) {
+                                case 1:
+                                    controle.cadastrarCliente(entrada);
+                                    break;
+                                case 2:
+                                    controle.cadastrarProfissional(entrada);
+                                    break;
+                                default:
+                                    JOptionPane.showInternalMessageDialog(null,"Selecione uma opção válida.", "Erro", JOptionPane.INFORMATION_MESSAGE);
+                                    break;
+                            }
+                        } catch (NumberFormatException e) {
+                            JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
+                            System.exit(0);
+                        } catch (NullPointerException e) {
+                            JOptionPane.showMessageDialog(null, "Opção inválida. Clique em OK para continuar.", "Erro", JOptionPane.ERROR_MESSAGE);
+                        }
+                        break;
+                    case 3:
+                        JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
+                        System.exit(0);
+                    default:
+                        JOptionPane.showInternalMessageDialog(null,"Selecione uma opção válida.", "Erro", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
+            } catch (NullPointerException e) {
+                JOptionPane.showMessageDialog(null, "Opção inválida. Clique em OK para continuar.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         } while (true);
-
-
     }
 }
