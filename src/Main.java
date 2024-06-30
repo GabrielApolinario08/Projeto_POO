@@ -19,7 +19,7 @@ public class Main {
 
             switch (opc) {
                 case 1:
-                    System.out.println("oi");
+                    controle.fecha();
                     break;
                 case 2:
                     opc = Integer.parseInt(JOptionPane.showInputDialog(null, "Selecione uma das opções:" +

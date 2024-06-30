@@ -1,1 +1,3 @@
-Cliente;1;caio;caoi@;chocoalte
+Cliente;1;caio;caio@;chocolate
+Cliente;1;poli;poli@;poliGayy
+Profissional;1;carlos;carlos@;ben10000;null

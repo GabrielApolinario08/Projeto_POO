@@ -14,6 +14,10 @@ public class Controle {
         }
     }
 
+    public void fecha() throws IOException {
+        usuarioTxt.close();
+    }
+
     public void cadastrarCliente(Scanner entrada) throws IOException {
             System.out.println("Cadastrar cliente");
             System.out.print("Nome: ");
@@ -34,7 +38,6 @@ public class Controle {
             usuarioTxt.write(cliente.toString());
             usuarioTxt.newLine();
             System.out.println("Cliente cadastrado com sucesso!");
-            usuarioTxt.close();
     }
     public void cadastrarProfissional(Scanner entrada) throws IOException {
         System.out.println("Cadastrar profissional");
