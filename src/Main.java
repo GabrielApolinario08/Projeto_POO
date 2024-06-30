@@ -37,6 +37,7 @@ public class Main {
                             System.out.println("Opção inválida!");
                             break;
                     }
+                    break;
                 case 3:
                     System.out.println("Fim do programa!");
                     return;
