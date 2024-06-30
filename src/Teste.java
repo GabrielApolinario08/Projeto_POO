@@ -12,12 +12,8 @@ public class Teste {
 
         int option = JOptionPane.showConfirmDialog(null, message, "Informe seus dados", JOptionPane.OK_CANCEL_OPTION);
 
-        if (option == JOptionPane.OK_OPTION) {
-            String nome = nomeField.getText();
-            int idade = Integer.parseInt(idadeField.getText());
-            System.out.println("Nome: " + nome + ", Idade: " + idade);
-        } else {
-            System.out.println("Operação cancelada.");
+        if (nomeField.getText().length() < 4) {
+            System.out.println("po");
         }
     }
 }

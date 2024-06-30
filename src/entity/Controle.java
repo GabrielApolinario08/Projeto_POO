@@ -31,8 +31,25 @@ public class Controle {
             };
 
             while (true) {
-                JOptionPane.showConfirmDialog(null, message, "Informe seus dados", JOptionPane.OK_CANCEL_OPTION);
-                if (senha.getText().length() < 8) {
+                int opt = JOptionPane.showConfirmDialog(null, message, "Informe seus dados", JOptionPane.OK_CANCEL_OPTION);
+                if (opt != JOptionPane.OK_OPTION) {
+                    JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
+                    System.exit(0);
+                }
+
+                // EMAILL APOLINARIOO O O O O ARRUMA
+                boolean verif = false;
+                for (int i = 0; i < email.getText().length(); i++) {
+                    if (email.getText().charAt(i) == '@') {
+                        verif = true;
+                        break;
+                    }
+                }
+                if (nome.getText().length() < 2) {
+                    JOptionPane.showMessageDialog(null, "Nome precisa ter no mínimo 2 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
+                } else if (!verif) {
+                    JOptionPane.showMessageDialog(null, "Email incorreto.", "Erro", JOptionPane.INFORMATION_MESSAGE);
+                } else if (senha.getText().length() < 8) {
                     JOptionPane.showMessageDialog(null, "Senha precisa ter no mínimo 8 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     break;
@@ -73,10 +90,30 @@ public class Controle {
             };
 
             while (true) {
-                JOptionPane.showConfirmDialog(null, message, "Informe seus dados", JOptionPane.OK_CANCEL_OPTION);
-                if (senha.getText().length() < 8) {
+                int opt = JOptionPane.showConfirmDialog(null, message, "Informe seus dados", JOptionPane.OK_CANCEL_OPTION);
+                if (opt != JOptionPane.OK_OPTION) {
+                    JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
+                    System.exit(0);
+                }
+
+                // EMAILL APOLINARIOO O O O O ARRUMA
+                boolean verif = false;
+                for (int i = 0; i < email.getText().length(); i++) {
+                    if (email.getText().charAt(i) == '@') {
+                        verif = true;
+                        break;
+                    }
+                }
+                if (nome.getText().length() < 2) {
+                    JOptionPane.showMessageDialog(null, "Nome precisa ter no mínimo 2 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
+                } else if (!verif) {
+                    JOptionPane.showMessageDialog(null, "Email incorreto.", "Erro", JOptionPane.INFORMATION_MESSAGE);
+                } else if (senha.getText().length() < 8) {
                     JOptionPane.showMessageDialog(null, "Senha precisa ter no mínimo 8 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else {
+                } else if (profissao.getText().length() < 2) {
+                    JOptionPane.showMessageDialog(null, "Profissão precisa ter no mínimo 2 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else {
                     break;
                 }
             }
