@@ -9,6 +9,7 @@ import javax.swing.*;
 public class Controle {
     private BufferedWriter usuarioTxt;
     private final String arquivo = "usuarios.txt";
+    private boolean logado;
 
     public Controle() {
         try {
@@ -16,7 +17,17 @@ public class Controle {
         } catch (IOException e) {
             System.err.println("Erro ao abrir o arquivo: " + e.getMessage());
         }
+
+        logado = false;
     }
+
+    public void setLogado(boolean logado) {
+        this.logado = logado;
+    }
+    public boolean isLogado(){
+        return logado;
+    }
+
 
     public void cadastrarCliente(Scanner entrada) throws IOException {
         int cod;
@@ -33,7 +44,7 @@ public class Controle {
             while (true) {
                 int opt = JOptionPane.showConfirmDialog(null, message, "Informe seus dados", JOptionPane.OK_CANCEL_OPTION);
                 if (opt != JOptionPane.OK_OPTION) {
-                    JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                     System.exit(0);
                 }
 
@@ -92,7 +103,7 @@ public class Controle {
             while (true) {
                 int opt = JOptionPane.showConfirmDialog(null, message, "Informe seus dados", JOptionPane.OK_CANCEL_OPTION);
                 if (opt != JOptionPane.OK_OPTION) {
-                    JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                     System.exit(0);
                 }
 
