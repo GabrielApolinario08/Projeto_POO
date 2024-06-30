@@ -5,10 +5,11 @@ import java.util.Scanner;
 
 public class Controle {
     private BufferedWriter usuarioTxt;
+    private final String arquivo = "usuarios.txt";
 
     public Controle() {
         try {
-            usuarioTxt = new BufferedWriter(new FileWriter("usuarios.txt", true));
+            usuarioTxt = new BufferedWriter(new FileWriter(arquivo, true));
         } catch (IOException e) {
             System.err.println("Erro ao abrir o arquivo: " + e.getMessage());
         }
@@ -34,7 +35,6 @@ public class Controle {
             usuarioTxt.write(cliente.toString());
             usuarioTxt.newLine();
             System.out.println("Cliente cadastrado com sucesso!");
-            usuarioTxt.close();
     }
     public void cadastrarProfissional(Scanner entrada) throws IOException {
         System.out.println("Cadastrar profissional");
@@ -60,6 +60,39 @@ public class Controle {
         System.out.println("Profissional cadastrado com sucesso!");
     }
 
+    public void logar(Scanner entrada) throws IOException {
+        usuarioTxt.close();
+        Usuario user = new Usuario();
 
+        outerLoop:
+        while (true) {
+            try {
+                System.out.println("Login");
+                System.out.println("Email: ");
+                user.setEmail(entrada.nextLine());
+                System.out.println("Senha: ");
+                user.setSenha(entrada.nextLine());
+                FileReader fr = new FileReader(arquivo);
+                BufferedReader br = new BufferedReader(fr);
+                while (br.ready()) {
+                    String linha = br.readLine();
+                    String[] campos = linha.split(";");
+                    if (campos[3].equals(user.getEmail())) {
+                        if (campos[4].equals(user.getSenha())) {
+                            System.out.println("login feito com sucesso!");
+                            break outerLoop;
+                        } else {
+                            throw new IllegalArgumentException("Senha inválida!");
+                        }
+                    } else {
+                        throw new IllegalArgumentException("Email inválido!");
+                    }
+                }
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 
 }
