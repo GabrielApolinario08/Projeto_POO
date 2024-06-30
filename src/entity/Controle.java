@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Random;
+import javax.swing.*;
 public class Controle {
     private BufferedWriter usuarioTxt;
     private final String arquivo = "usuarios.txt";
@@ -19,27 +20,37 @@ public class Controle {
 
     public void cadastrarCliente(Scanner entrada) throws IOException {
         int cod;
-            System.out.println("Cadastrar cliente");
-            System.out.print("Nome: ");
-            String nome = entrada.nextLine();
-            System.out.print("Email: ");
-            String email = entrada.nextLine();
-            String senha;
+        JTextField nome = new JTextField();
+        JTextField email = new JTextField();
+        JTextField senha = new JTextField();
+        try {
+            Object[] message = {
+                    "Nome:", nome,
+                    "Email:", email,
+                    "Senha:", senha
+            };
+
             while (true) {
-                System.out.print("Senha: ");
-                senha = entrada.nextLine();
-                if (senha.length() < 8) {
-                    System.out.println("Senha precisa ter no mínimo 8 caracteres.");
+                JOptionPane.showConfirmDialog(null, message, "Informe seus dados", JOptionPane.OK_CANCEL_OPTION);
+                if (senha.getText().length() < 8) {
+                    JOptionPane.showMessageDialog(null, "Senha precisa ter no mínimo 8 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     break;
                 }
             }
+        } catch (NumberFormatException e) {
+            JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Opção inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+
         try {
             cod = codigoAleatorio();
-            Cliente cliente = new Cliente(cod, nome, email, senha, "Cliente");
+            Cliente cliente = new Cliente(cod, nome.getText(), email.getText(), senha.getText(), "Cliente");
             usuarioTxt.write(cliente.toString());
             usuarioTxt.newLine();
-            System.out.println("Cliente cadastrado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!", null, JOptionPane.INFORMATION_MESSAGE);
 
         }catch(Exception e) {
             System.err.println(e.getMessage());
@@ -49,29 +60,39 @@ public class Controle {
     }
     public void cadastrarProfissional(Scanner entrada) throws IOException {
         int cod;
-        System.out.println("Cadastrar profissional");
-        System.out.print("Nome: ");
-        String nome = entrada.nextLine();
-        System.out.print("Email: ");
-        String email = entrada.nextLine();
-        String senha;
-        while (true) {
-            System.out.print("Senha: ");
-            senha = entrada.nextLine();
-            if (senha.length() < 8) {
-                System.out.println("Senha precisa ter no mínimo 8 caracteres.");
-            } else {
-                break;
+        JTextField nome = new JTextField();
+        JTextField email = new JTextField();
+        JTextField senha = new JTextField();
+        JTextField profissao = new JTextField();
+        try {
+            Object[] message = {
+                    "Nome:", nome,
+                    "Email:", email,
+                    "Senha:", senha,
+                    "Profissão:", profissao
+            };
+
+            while (true) {
+                JOptionPane.showConfirmDialog(null, message, "Informe seus dados", JOptionPane.OK_CANCEL_OPTION);
+                if (senha.getText().length() < 8) {
+                    JOptionPane.showMessageDialog(null, "Senha precisa ter no mínimo 8 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    break;
+                }
             }
+        } catch (NumberFormatException e) {
+            JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Opção inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-        System.out.print("Área de atuação: ");
-        String profissao = entrada.nextLine();
+
         try {
             cod = codigoAleatorio();
-            Profissional profissional = new Profissional(cod, nome, email, senha, "Profissional", profissao);
+            Profissional profissional = new Profissional(cod, nome.getText(), email.getText(), senha.getText(), "Profissional", profissao.getText());
             usuarioTxt.write(profissional.toString());
             usuarioTxt.newLine();
-            System.out.println("Profissional cadastrado com sucesso!");
+            JOptionPane.showMessageDialog(null, "Profissional cadastrado com sucesso!", null, JOptionPane.INFORMATION_MESSAGE);
         }catch(Exception e) {
             System.err.println(e.getMessage());
         }

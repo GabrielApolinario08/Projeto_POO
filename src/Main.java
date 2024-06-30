@@ -43,7 +43,7 @@ public class Main {
                             JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
                             System.exit(0);
                         } catch (NullPointerException e) {
-                            JOptionPane.showMessageDialog(null, "Opção inválida. Clique em OK para continuar.", "Erro", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Opção inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
                         }
                         break;
                     case 3:
@@ -57,7 +57,7 @@ public class Main {
                 JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
                 System.exit(0);
             } catch (NullPointerException e) {
-                JOptionPane.showMessageDialog(null, "Opção inválida. Clique em OK para continuar.", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Opção inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         } while (true);
 

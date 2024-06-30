@@ -1,34 +1,23 @@
 import javax.swing.*;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class Teste {
-    public static void main(String[] args) throws IOException {
-        int opc;
-        do {
-            try {
-                opc = Integer.parseInt(JOptionPane.showInputDialog(null, "Selecione uma das opções:" +
-                        "\n1) Entrar" +
-                        "\n2) Cadastrar" +
-                        "\n3) Sair" +
-                        "\nInforme a opção:", "Menu", JOptionPane.QUESTION_MESSAGE));
+    public static void main(String[] args) {
+        JTextField nomeField = new JTextField();
+        JTextField idadeField = new JTextField();
 
-                switch (opc) {
-                    case 1:
-                        //codigo
-                    case 2:
-                        //codigo
-                }
-            } catch (NumberFormatException e) {
-                JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
-                System.exit(0);
-            } catch (NullPointerException e) {
-                JOptionPane.showInternalMessageDialog(null,"Selecione uma opção válida.", "Erro", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } while (true);
+        Object[] message = {
+                "Nome:", nomeField,
+                "Idade:", idadeField
+        };
 
+        int option = JOptionPane.showConfirmDialog(null, message, "Informe seus dados", JOptionPane.OK_CANCEL_OPTION);
 
+        if (option == JOptionPane.OK_OPTION) {
+            String nome = nomeField.getText();
+            int idade = Integer.parseInt(idadeField.getText());
+            System.out.println("Nome: " + nome + ", Idade: " + idade);
+        } else {
+            System.out.println("Operação cancelada.");
+        }
     }
 }
-//Caio Balieiro Mariano
