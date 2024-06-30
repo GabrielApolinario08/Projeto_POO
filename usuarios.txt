@@ -1,5 +1,0 @@
-Cliente;761;caio;caio@;chocolate
-Profissional;735;poli;poli@;ben1000000000;null
-Profissional;94;n;n@;nnnnnnnnnnnnnn;jogo
-Cliente;763;Lucas;lucas@;chocolate
-Cliente;508;;;
