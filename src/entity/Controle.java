@@ -182,12 +182,12 @@ public class Controle {
         return cod;
     }
     public void logar(Scanner entrada) throws IOException {
-        boolean qlqr = true;
-        usuarioTxt.close ();
+        usuarioTxt.close();
         Usuario user = new Usuario();
-
-
-        while (qlqr) {
+        boolean certo = true, emailCorrect, passwordCorrect;
+        while (certo) {
+            emailCorrect = false;
+            passwordCorrect = false;
             try {
                 System.out.println("Login");
                 System.out.println("Email: ");
@@ -196,25 +196,33 @@ public class Controle {
                 user.setSenha(entrada.nextLine());
                 FileReader fr = new FileReader(arquivo);
                 BufferedReader br = new BufferedReader(fr);
+
                 while (br.ready()) {
                     String linha = br.readLine();
                     String[] campos = linha.split(";");
                     if (campos[3].equals(user.getEmail())) {
+                        emailCorrect = true;
                         if (campos[4].equals(user.getSenha())) {
-                            System.out.println("login feito com sucesso!");
-                            qlqr = false;
-                        } else {
-                            throw new IllegalArgumentException("Senha inválida!");
+                            passwordCorrect = true;
+                            certo = false;
+                            System.out.println("Login feito com sucesso!");
+                            break;
+
                         }
-                    } else {
-                        throw new IllegalArgumentException("Email inválido!");
                     }
+                }
+                if(!emailCorrect) {
+                    throw new IllegalArgumentException("Email incorreto!");
+                }
+                if(!passwordCorrect){
+                    throw new IllegalArgumentException("Senha incorreta!");
                 }
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
+
     }
 
 }
