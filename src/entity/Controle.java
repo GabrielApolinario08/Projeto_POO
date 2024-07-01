@@ -11,6 +11,8 @@ public class Controle {
     private final String arquivo = "usuarios.txt";
     private boolean logado;
 
+    private String tipoUser;
+
     public Controle() {
         try {
             usuarioTxt = new BufferedWriter(new FileWriter(arquivo, true));
@@ -205,6 +207,7 @@ public class Controle {
                         if (campos[4].equals(user.getSenha())) {
                             passwordCorrect = true;
                             certo = false;
+                            setTipoUser(campos[0]);
                             System.out.println("Login feito com sucesso!");
                             break;
 
@@ -225,4 +228,11 @@ public class Controle {
 
     }
 
+    public String getTipoUser() {
+        return tipoUser;
+    }
+
+    public void setTipoUser(String tipoUser) {
+        this.tipoUser = tipoUser;
+    }
 }

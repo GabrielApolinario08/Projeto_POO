@@ -1,3 +1,5 @@
 Cliente;654;CAIO;caio@;chocolate
 Profissional;685;carlos;carlos@;21212121;eletricista
 Profissional;414;calin;calin@;21212121;gato
+Profissional;122;GAb;gab@;gab123456;pedreiro
+ADM;01;ADM;ADM@;adm12345
