@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner entrada = new Scanner(System.in);
         Controle controle = new Controle();
-        Adm adm = new Adm(01, "pedro", "pedro@", "8888888888", "Adm");
+        Adm  adm = new Adm(01, "pedro", "pedro@", "8888888888", "Adm");
         int opc;
         String nome, email, senha, tipo;
         do {
