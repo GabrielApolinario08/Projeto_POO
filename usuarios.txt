@@ -1,1 +1,3 @@
 Cliente;654;CAIO;caio@;chocolate
+Profissional;122;GAb;gab@;gab123456;pedreiro
+ADM;01;ADM;ADM@;adm12345
