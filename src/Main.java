@@ -31,10 +31,10 @@ public class Main {
 
                                 switch (opc) {
                                     case 0:
-                                        controle.cadastrarCliente(entrada);
+                                        controle.cadastrarCliente();
                                         break;
                                     case 1:
-                                        controle.cadastrarProfissional(entrada);
+                                        controle.cadastrarProfissional();
                                         break;
                                     default:
                                         JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
@@ -70,7 +70,7 @@ public class Main {
                             break;
                         case 1:
                             adm.arquivar();
-                            JOptionPane.showMessageDialog(null, "Profissões cadastradas com sucesso.\nFim do programa", null, JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Profissões cadastradas com sucesso.\nFim do programa", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                             break;
                         default:
                             JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);

@@ -31,7 +31,7 @@ public class Controle {
     }
 
 
-    public void cadastrarCliente(Scanner entrada) throws IOException {
+    public void cadastrarCliente() throws IOException {
         int cod;
         JTextField nome = new JTextField();
         JTextField email = new JTextField();
@@ -44,23 +44,14 @@ public class Controle {
             };
 
             while (true) {
-                int opt = JOptionPane.showConfirmDialog(null, message, "Informe seus dados", JOptionPane.OK_CANCEL_OPTION);
+                int opt = JOptionPane.showConfirmDialog(null, message, "Cadastrar Cliente", JOptionPane.OK_CANCEL_OPTION);
                 if (opt != JOptionPane.OK_OPTION) {
                     JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                     System.exit(0);
                 }
-
-                // EMAILL APOLINARIOO O O O O ARRUMA
-                boolean verif = false;
-                for (int i = 0; i < email.getText().length(); i++) {
-                    if (email.getText().charAt(i) == '@') {
-                        verif = true;
-                        break;
-                    }
-                }
                 if (nome.getText().length() < 2) {
                     JOptionPane.showMessageDialog(null, "Nome precisa ter no mínimo 2 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else if (!verif) {
+                } else if (!email.getText().contains("@") && !email.getText().contains(".")) {
                     JOptionPane.showMessageDialog(null, "Email incorreto.", "Erro", JOptionPane.INFORMATION_MESSAGE);
                 } else if (senha.getText().length() < 8) {
                     JOptionPane.showMessageDialog(null, "Senha precisa ter no mínimo 8 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
@@ -88,7 +79,7 @@ public class Controle {
         }
 
     }
-    public void cadastrarProfissional(Scanner entrada) throws IOException {
+    public void cadastrarProfissional() throws IOException {
         int cod;
         JTextField nome = new JTextField();
         JTextField email = new JTextField();
@@ -103,23 +94,15 @@ public class Controle {
             };
 
             while (true) {
-                int opt = JOptionPane.showConfirmDialog(null, message, "Informe seus dados", JOptionPane.OK_CANCEL_OPTION);
+                int opt = JOptionPane.showConfirmDialog(null, message, "Cadastrar profissional", JOptionPane.OK_CANCEL_OPTION);
                 if (opt != JOptionPane.OK_OPTION) {
                     JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                     System.exit(0);
                 }
 
-                // EMAILL APOLINARIOO O O O O ARRUMA
-                boolean verif = false;
-                for (int i = 0; i < email.getText().length(); i++) {
-                    if (email.getText().charAt(i) == '@') {
-                        verif = true;
-                        break;
-                    }
-                }
                 if (nome.getText().length() < 2) {
                     JOptionPane.showMessageDialog(null, "Nome precisa ter no mínimo 2 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else if (!verif) {
+                } else if (!email.getText().contains("@") && !email.getText().contains(".")) {
                     JOptionPane.showMessageDialog(null, "Email incorreto.", "Erro", JOptionPane.INFORMATION_MESSAGE);
                 } else if (senha.getText().length() < 8) {
                     JOptionPane.showMessageDialog(null, "Senha precisa ter no mínimo 8 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
@@ -187,15 +170,23 @@ public class Controle {
         usuarioTxt.close();
         Usuario user = new Usuario();
         boolean certo = true, emailCorrect, passwordCorrect;
+        JTextField email = new JTextField();
+        JTextField senha = new JTextField();
         while (certo) {
             emailCorrect = false;
             passwordCorrect = false;
             try {
-                System.out.println("Login");
-                System.out.println("Email: ");
-                user.setEmail(entrada.nextLine());
-                System.out.println("Senha: ");
-                user.setSenha(entrada.nextLine());
+                Object[] dados = {
+                        "Email:", email,
+                        "Senha:", senha
+                };
+                int opt = JOptionPane.showConfirmDialog(null, dados, "Entrar", JOptionPane.OK_CANCEL_OPTION);
+                if (opt != JOptionPane.OK_OPTION) {
+                    JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                    System.exit(0);
+                }
+                user.setEmail(email.getText());
+                user.setSenha(senha.getText());
                 FileReader fr = new FileReader(arquivo);
                 BufferedReader br = new BufferedReader(fr);
 
@@ -208,9 +199,8 @@ public class Controle {
                             passwordCorrect = true;
                             certo = false;
                             setTipoUser(campos[0]);
-                            System.out.println("Login feito com sucesso!");
+                            JOptionPane.showMessageDialog(null, "Login feito com sucesso!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                             break;
-
                         }
                     }
                 }
@@ -222,7 +212,7 @@ public class Controle {
                 }
 
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
 
