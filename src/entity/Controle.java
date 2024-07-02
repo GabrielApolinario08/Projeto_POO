@@ -1,5 +1,6 @@
 package entity;
 
+import main.Main;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -243,36 +244,43 @@ public class Controle {
                         "Email:", email,
                         "Senha:", senha
                 };
-                int opt = JOptionPane.showConfirmDialog(null, dados, "Entrar", JOptionPane.OK_CANCEL_OPTION);
-                if (opt != JOptionPane.OK_OPTION) {
+                Object[] opcoes = {"OK", "Voltar", "Fechar"};
+
+                int opt = JOptionPane.showOptionDialog(null, dados, "Entrar", 0, 3, null, opcoes, opcoes[0]);
+                if (opt == 2) {
                     JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                     System.exit(0);
-                }
-                user.setEmail(email.getText());
-                user.setSenha(senha.getText());
-                FileReader fr = new FileReader(arquivo);
-                BufferedReader br = new BufferedReader(fr);
+                } else if (opt == 0) {
+                    user.setEmail(email.getText());
+                    user.setSenha(senha.getText());
+                    FileReader fr = new FileReader(arquivo);
+                    BufferedReader br = new BufferedReader(fr);
 
-                while (br.ready()) {
-                    String linha = br.readLine();
-                    String[] campos = linha.split(";");
-                    if (campos[3].equals(user.getEmail())) {
-                        emailCorrect = true;
-                        if (campos[4].equals(user.getSenha())) {
-                            passwordCorrect = true;
-                            certo = false;
-                            setTipoUser(campos[0]);
-                            JOptionPane.showMessageDialog(null, "Login feito com sucesso!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-                            break;
+                    while (br.ready()) {
+                        String linha = br.readLine();
+                        String[] campos = linha.split(";");
+                        if (campos[3].equals(user.getEmail())) {
+                            emailCorrect = true;
+                            if (campos[4].equals(user.getSenha())) {
+                                passwordCorrect = true;
+                                certo = false;
+                                setTipoUser(campos[0]);
+                                JOptionPane.showMessageDialog(null, "Login feito com sucesso!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                                break;
+                            }
                         }
                     }
+                    if(!emailCorrect) {
+                        throw new IllegalArgumentException("Email incorreto!");
+                    }
+                    if(!passwordCorrect){
+                        throw new IllegalArgumentException("Senha incorreta!");
+                    }
+                } else{
+                    Main.restart();
                 }
-                if(!emailCorrect) {
-                    throw new IllegalArgumentException("Email incorreto!");
-                }
-                if(!passwordCorrect){
-                    throw new IllegalArgumentException("Senha incorreta!");
-                }
+
+
 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);

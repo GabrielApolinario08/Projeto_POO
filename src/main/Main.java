@@ -1,3 +1,5 @@
+package main;
+
 import entity.Adm;
 import entity.Controle;
 
@@ -12,7 +14,7 @@ public class Main {
         do {
             if (!controle.isLogado()){
                 try {
-                    Object[] optionsMenu = {"Entrar", "Cadastrar", "Cancelar"};
+                    Object[] optionsMenu = {"Entrar", "Cadastrar", "Sair"};
                     opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu", 0, 3, null, optionsMenu, optionsMenu[0]);
 
 
@@ -92,5 +94,9 @@ public class Main {
                 }
             }
         } while (true);
+    }
+
+    public static void restart() throws IOException {
+        main(null);
     }
 }
