@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.io.*;
 import java.util.Scanner;
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         Scanner entrada = new Scanner(System.in);
         Controle controle = new Controle();
         int opc;
@@ -49,7 +49,7 @@ public class Main {
                 // USER = ADM
                 if (controle.getTipoUser().equals("ADM")) {
                     Adm adm = new Adm();
-                    adm.mostrarProfissao();
+                    adm.removerProfissao();
 
                    /* Object[] optionsCadastroProfissao = {"Cadastrar profissão", "Sair"};
                     opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - ADM", 0, 2, null, optionsCadastroProfissao, optionsCadastroProfissao[0]);

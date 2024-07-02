@@ -1,7 +1,3 @@
-cachorro
-farmacia
-pedreiro
-Jardineiro
-Eletricista
-Traficante
-Aviãozinho
+101;HAHAHA
+102;HAHAHA
+103;HAHAHA
