@@ -10,6 +10,7 @@ Cliente;986;carlon;carlon@;12345678
 Cliente;548;caio;caio@;chocolate
 Cliente;70;caio;caio@;chocolate
 Profissional;484;caio;caio@;chocolate;chocolate
-Profissional;466;caio;caioca;caio;001;pedreiro
 Cliente;551;caio;caio@;caiocaio
 ADM;86;ADM23;adm@.;chocolate
+Profissional;94;carlos;carlos@;carlos12;cachorro
+Profissional;14;carlert;carlex@;12345678;cachorro

@@ -1,13 +1,16 @@
 package entity;
 
+import java.io.IOException;
+
 public class Profissional extends Usuario{
     String profissao;
-    public Profissional(int codigo, String nome, String email, String senha, String tipo, String profissao) {
+    public Profissional(int codigo, String nome, String email, String senha, String tipo, String profissao) throws IOException {
         super(codigo, nome, email, senha, tipo);
         setProfissao(profissao);
     }
 
-    public Profissional() {
+    public Profissional() throws IOException {
+        super();
 
     }
 

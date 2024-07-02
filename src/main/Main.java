@@ -1,22 +1,24 @@
 package main;
 
-import entity.Adm;
-import entity.Controle;
+import entity.*;
 
 import javax.swing.*;
 import java.io.*;
 public class Main {
     static String tipoUser;
-    static Controle controle = new Controle();
-    public static void main(String[] args) throws Exception {
-        restart();
+    static Usuario user;
 
-
+    static {
+        try {
+            user = new Usuario();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public static void restart() throws Exception {
-
-
+    static Controle controle = new Controle();
+    public static void main(String[] args) throws Exception {
+        BufferedWriter usuariosTxt;
         int opc;
 
         boolean continueOuterLoop = true;
@@ -35,7 +37,7 @@ public class Main {
                             break;
                         case 1:
                             try {
-                                controle.cadastrar();
+                                cadastrar();
                             } catch (NumberFormatException e) {
                                 JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                                 System.exit(0);
@@ -62,25 +64,17 @@ public class Main {
                 if (controle.getTipoUser().equals("ADM")) {
                     Adm adm = new Adm();
 
-                    Object[] optionsADM = {"Cadastrar profissão","Mostrar profissões", "Remover Profissões","Cadastrar ADM", "Sair"};
+                    Object[] optionsCadastroProfissao = {"Cadastrar profissão", "Cadastrar ADM", "Sair"};
                     while (true) {
-                        opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - ADM", 0, 5, null, optionsADM, optionsADM[0]);
+                        opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - ADM", 0, 3, null, optionsCadastroProfissao, optionsCadastroProfissao[0]);
                         switch (opc) {
                             case 0:
-                                JTextField profissaoField = new JTextField();
-                                Object[] opcoes = {"OK", "Voltar"};
-                                int opt = JOptionPane.showOptionDialog(null, profissaoField, "Cadastro - Profissão", 0, 2, null, opcoes, opcoes[0]);
-                                String service = profissaoField.getText();
-                                adm.cadastrarProfissao(service, opt);
+                                adm.cadastrarProfissao();
                                 break;
-
                             case 1:
-
-
-                            case 3:
                                 controle.cadastrarAdm();
                                 break;
-                            case 4:
+                            case 2:
                                 adm.arquivar();
                                 JOptionPane.showMessageDialog(null, "Deslogando!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                                 controle.setLogado(false);
@@ -101,16 +95,110 @@ public class Main {
                     break;
                     // USER = CLIENTE
                 } else {
-                    System.out.println("CLIENTEEEEEEEEEEEEE");
-                    break;
+                    Object[] optionsCliente = {"Visualizar profissionais", "Sair"};
+
+                    while (true) {
+                        opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - Cliente", 0, 2, null, optionsCliente, optionsCliente[0]);
+                        switch (opc) {
+                            case 0:
+                                String[] profissionais = controle.carregarProfissionais("usuarios.txt");
+                                JComboBox<String> profissional = new JComboBox<>(profissionais);
+                                profissional.setSelectedItem("Selecione uma opção");
+
+                                JOptionPane.showMessageDialog(null, profissional, "Profissionais disponiveis", JOptionPane.OK_OPTION);
+
+                                break;
+                            case 1:
+                                JOptionPane.showMessageDialog(null, "Deslogando!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                                controle.setLogado(false);
+                                continueOuterLoop = true;
+
+                                break;
+
+                            default:
+                                JOptionPane.showInternalMessageDialog(null,"Operação cancelada, fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                                System.exit(0);
+                        }
+                        if (continueOuterLoop) {
+                            break;  // Sai do loop interno
+                        }
+                    }
+
                 }
             }
-
-
-        } while (true);
-
+        } while (continueOuterLoop);
     }
 
+    public static void restart() throws Exception {
+        main(null);
+    }
 
+    //CARLIN METODO INUTILL (VOLTAR JÀ COM O SETLOGADO TRUE PARA ELE JÀ VOLTAR COMO LOGADO)
+    public static void restartLogado() throws Exception {
+
+        Controle controle = new Controle();
+        controle.setLogado(true);
+        controle.setTipoUser(tipoUser);
+        main(null);
+    }
+
+    public static void cadastrar() throws Exception {
+        Object[] optionsMenu = {"Cliente", "Profissional", "Voltar"};
+        int opc = JOptionPane.showOptionDialog(null,"Cadastrar como:", "Menu - cadastrar", 0, 3, null, optionsMenu, optionsMenu[0]);
+        Object[] optionsCad;
+        JTextField nome = new JTextField();
+        JTextField email = new JTextField();
+        JTextField senha = new JTextField();
+
+        String[] profissoes = controle.carregarProfissoesDeArquivo("profissoes.txt");
+        JComboBox<String> profissao = new JComboBox<>(profissoes);
+        profissao.setSelectedItem("Selecione uma opção");
+
+
+        switch (opc) {
+            case -1:
+                JOptionPane.showMessageDialog(null, "Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
+            case 0:
+                optionsCad = new Object[]{
+                        "Nome:", nome,
+                        "Email:", email,
+                        "Senha:", senha
+                };
+
+                while (true) {
+                    try {
+                        JOptionPane.showConfirmDialog(null, optionsCad, "Cadastrar cliente", JOptionPane.OK_CANCEL_OPTION);
+                        user = new Cliente(controle.codigoAleatorio(), nome.getText(), email.getText(), senha.getText(), "Cliente");
+                        controle.cadastrarControle(user);
+                        JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            case 1:
+                optionsCad = new Object[]{
+                        "Nome:", nome,
+                        "Email:", email,
+                        "Senha:", senha,
+                        "Profissão:", profissao
+                };
+
+                while (true) {
+                    try {
+                        JOptionPane.showConfirmDialog(null, optionsCad, "Cadastrar Profissional", JOptionPane.OK_CANCEL_OPTION);
+                        user = new Profissional(controle.codigoAleatorio(), nome.getText(), email.getText(), senha.getText(), "Profissional", (String)profissao.getSelectedItem());
+                        controle.cadastrarControle(user);
+                        JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+        }
+
+    }
 
 }
