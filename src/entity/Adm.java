@@ -4,8 +4,11 @@ import java.io.*;
 import java.util.*;
 
 public class Adm extends Usuario{
+<<<<<<< HEAD
     private BufferedWriter profissoesTxt;
     private final String arquivo = "profissoes.txt";
+=======
+>>>>>>> ee53bd30f6d40f4a6a1791cb197873e51b7c2c94
     public Adm(int codigo, String nome, String email, String senha, String tipo) {
         super(codigo, nome, email, senha, tipo);
         try {
