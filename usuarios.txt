@@ -6,3 +6,4 @@ Profissional;214;prof;prof@;chocolate;cachorro
 ADM;795;ADM2;adm2@;chocolate
 ADM;422;carlon;carlon@.;12345678
 Profissional;602;carlon;carlon@;acacacaca;caacaac
+Cliente;986;carlon;carlon@;12345678

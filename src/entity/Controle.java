@@ -18,7 +18,7 @@ public class Controle {
             System.err.println("Erro ao abrir o arquivo: " + e.getMessage());
         }
 
-        logado = false;
+
     }
 
     public void setLogado(boolean logado) {
@@ -196,6 +196,7 @@ public class Controle {
                                 passwordCorrect = true;
                                 certo = false;
                                 setTipoUser(campos[0]);
+                                logado= true;
                                 JOptionPane.showMessageDialog(null, "Login feito com sucesso!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                                 break;
                             }

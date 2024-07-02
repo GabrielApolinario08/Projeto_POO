@@ -1,5 +1,7 @@
 package entity;
 
+import main.Main;
+import javax.swing.*;
 import java.io.*;
 import java.util.*;
 
@@ -31,35 +33,56 @@ public class Adm extends Usuario{
     }
 
 
-    public void cadastrarProfissao(String service) throws Exception {
+    public void cadastrarProfissao() throws Exception {
         boolean registeredService = true;
 
-        Scanner scanner = new Scanner(System.in);
+        String service = "";
         Profissao profissao = new Profissao();
+        JTextField profissaoField = new JTextField();
+        Object[] opcoes = {"OK", "Voltar"};
+        while (true){
+           int opc = JOptionPane.showOptionDialog(null, profissaoField, "Cadastro - Profissão", 0, 2, null, opcoes, opcoes[0]);
+            switch (opc){
+                case 0:
 
-        while (registeredService) {
-            registeredService = false;
-            System.out.println("Cadastrando profissão!");
-            System.out.println("Informe o nome da profissão: ");
-            service = scanner.nextLine();
-            FileReader fr = new FileReader(arquivo);
-            BufferedReader br = new BufferedReader(fr);
-            while (br.ready()) {
-                String line = br.readLine().trim();
-                if (line.equals(service)) {
-                    System.out.println("Serviço já cadastrado!");
-                    registeredService = true;
-                }
+                    service = profissaoField.getText();
+                    FileReader fr = new FileReader(arquivo);
+                    BufferedReader br = new BufferedReader(fr);
+                    boolean ver = true;
+
+                    if (!service.equals("")){
+                        while (br.ready()) {
+                            String line = br.readLine().trim();
+                            if (line.equals(service)) {
+                                JOptionPane.showMessageDialog(null, "Serviço já cadastrado", "alerta", JOptionPane.ERROR_MESSAGE);
+                                ver = false;
+                            }else{
+                                ver = true;
+                            }
+
+                        }
+                        if (ver){
+                            profissao.setName(service);
+                            profissoesTxt.write( codigoAleatorio() + ";" + profissao.getName());
+                            profissoesTxt.newLine();
+
+                            JOptionPane.showMessageDialog(null, "Serviço cadastrado com sucesso!!", "alerta",JOptionPane.INFORMATION_MESSAGE );
+                        }
+                    }
+                    break;
+                    // CARLIN AJEITAR PARA QUANDO ELE SAIR JÀ VOLTAR COMO ADM LOGADO
+                case 1:
+                    profissoesTxt.close();
+                    //System.exit(0);
+                    Main.restart();
+                    break;
+
+                default:
+                    JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
             }
-        }
-        if (!registeredService) {
-            profissao.setName(service);
-            profissoesTxt.write(codigoAleatorio() + ";" + profissao.getName());
-            profissoesTxt.newLine();
-            profissoesTxt.close();
-            System.out.println("Serviço cadastrada com sucesso!");
-        }
 
+
+        }
     }
 
     public void mostrarProfissao() throws IOException {

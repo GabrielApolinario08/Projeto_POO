@@ -6,11 +6,15 @@ import entity.Controle;
 import javax.swing.*;
 import java.io.*;
 public class Main {
+    static String tipoUser;
     public static void main(String[] args) throws Exception {
         Controle controle = new Controle();
         int opc;
+
         String nome, email, senha, tipo;
+        boolean continueOuterLoop = true;
         do {
+            System.out.println(controle.isLogado());
             if (!controle.isLogado()){
                 try {
                     Object[] optionsMenu = {"Entrar", "Cadastrar", "Sair"};
@@ -21,6 +25,7 @@ public class Main {
                         case 0:
                             controle.logar();
                             controle.setLogado(true);
+                            tipoUser = controle.getTipoUser();
                             break;
                         case 1:
                             try {
@@ -56,18 +61,24 @@ public class Main {
                         opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - ADM", 0, 3, null, optionsCadastroProfissao, optionsCadastroProfissao[0]);
                         switch (opc) {
                             case 0:
-                                adm.cadastrarProfissao(JOptionPane.showInputDialog(null, "Informe o nome da profissão:", "Cadastro - Profissão", JOptionPane.QUESTION_MESSAGE));
+                                adm.cadastrarProfissao();
                                 break;
                             case 1:
                                 controle.cadastrarAdm();
                                 break;
                             case 2:
                                 adm.arquivar();
-                                JOptionPane.showMessageDialog(null, "Profissões cadastradas com sucesso.\nFim do programa", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-                                System.exit(0);
+                                JOptionPane.showMessageDialog(null, "Deslogando!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                                controle.setLogado(false);
+                                continueOuterLoop = true;
+                                break;
+
                             default:
                                 JOptionPane.showInternalMessageDialog(null,"Operação cancelada, fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                                 System.exit(0);
+                        }
+                        if (continueOuterLoop) {
+                            break;  // Sai do loop interno
                         }
                     }
                 // USER = PROFISSIONAL
@@ -86,4 +97,14 @@ public class Main {
     public static void restart() throws Exception {
         main(null);
     }
+
+    //CARLIN METODO INUTIL (VOLTAR JÀ COM O SETLOGADO TRUE PARA ELE JÀ VOLTAR COMO LOGADO)
+    public static void restartLogado() throws Exception {
+
+        Controle controle = new Controle();
+        controle.setLogado(true);
+        controle.setTipoUser(tipoUser);
+        main(null);
+    }
+
 }
