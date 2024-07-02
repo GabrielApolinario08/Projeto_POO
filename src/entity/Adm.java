@@ -30,9 +30,10 @@ public class Adm extends Usuario{
         return super.toString();
     }
 
-    public void cadastrarProfissao() throws Exception {
+
+    public void cadastrarProfissao(String service) throws Exception {
         boolean registeredService = true;
-        String service = "";
+
         Scanner scanner = new Scanner(System.in);
         Profissao profissao = new Profissao();
 
