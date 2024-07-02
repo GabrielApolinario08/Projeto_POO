@@ -23,17 +23,7 @@ public class Adm extends Usuario{
     }
 
     public void cadastrarProfissao(String servico) throws IOException {
-        while (true) {
 
-                if (servico.length() < 2) {
-                    System.out.println("Profissão deve possuir no mínimo 2 caracteres");
-                } else {
-                    profissoesTxt.write(servico);
-                    profissoesTxt.newLine();
-                    break;
-                }
-
-        }
     }
 
     public void arquivar() throws IOException {
