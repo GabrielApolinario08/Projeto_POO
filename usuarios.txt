@@ -16,3 +16,4 @@ Profissional;94;carlos;carlos@;carlos12;cachorro
 Profissional;14;carlert;carlex@;12345678;cachorro
 Cliente;579;caio;caio@;chocolate
 Profissional;955;caio;caio@;chocoalte;asds
+ADM;774;adm;ADM@2;chocolate

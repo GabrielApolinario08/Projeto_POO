@@ -8,9 +8,9 @@ public class Usuario {
 
 	public Usuario() throws IOException {
 		setCodigo(0);
-		setNome("Cliente");
-		setEmail("cliente@");
-		setSenha("cliente1234");
+		setNome("Usuario");
+		setEmail("Usuario@");
+		setSenha("usuario1234");
 		setTipo("Cliente");
 	}
 
