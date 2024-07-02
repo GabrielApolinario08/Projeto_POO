@@ -103,6 +103,7 @@ public class Adm extends Usuario{
             profissoesTxt.write(campos[0] + ";" + campos[1]);
             profissoesTxt.newLine();
         }
+        System.out.println("Serviço removido com sucesso!");
         profissoesTxt.close();
     }
 

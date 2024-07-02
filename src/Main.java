@@ -48,9 +48,20 @@ public class Main {
             else {
                 // USER = ADM
                 if (controle.getTipoUser().equals("ADM")) {
+                    Scanner scanner = new Scanner(System.in);
                     Adm adm = new Adm();
-                    adm.removerProfissao();
-
+                    System.out.println("""
+                                        Menu
+                                [1] Cadastrar Serviço
+                                [2] Deletar Serviço
+                                [3] Mostrar Serviço""");
+                    System.out.println("Sua opção: ");
+                    int opcAdm = scanner.nextInt();
+                    switch (opcAdm) {
+                        case 1 -> adm.cadastrarProfissao();
+                        case 2 -> adm.removerProfissao();
+                        case 3 -> adm.mostrarProfissao();
+                    }
                    /* Object[] optionsCadastroProfissao = {"Cadastrar profissão", "Sair"};
                     opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - ADM", 0, 2, null, optionsCadastroProfissao, optionsCadastroProfissao[0]);
                     switch (opc) {
