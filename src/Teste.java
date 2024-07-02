@@ -6,18 +6,7 @@ import java.util.Scanner;
 
 public class Teste {
     public static void main(String[] args) throws IOException {
-        Scanner entrada = new Scanner(System.in);
-
-        BufferedWriter profissoesTxt = new BufferedWriter(new FileWriter("arquivo.txt", true));
-        while (true) {
-            String servico = entrada.nextLine();
-            if (servico.length() < 2) {
-                System.out.println("Profissão deve possuir no mínimo 2 caracteres");
-            } else {
-                profissoesTxt.write(servico);
-                profissoesTxt.newLine();
-                profissoesTxt.close();
-            }
-        }
+        int opc = JOptionPane.showConfirmDialog(null, "oi", null, JOptionPane.ERROR_MESSAGE);
+        System.out.println(opc);
     }
 }

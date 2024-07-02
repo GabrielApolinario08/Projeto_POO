@@ -1,18 +1,20 @@
 package entity;
 
+import java.io.IOException;
+
 public class Usuario {
 	protected int codigo;
 	protected String nome, email, senha, tipo;
 
-	public Usuario() {
+	public Usuario() throws IOException {
 		setCodigo(0);
-		setNome("");
-		setEmail("");
-		setSenha("");
-		setTipo("");
+		setNome("Usuario");
+		setEmail("Usuario@");
+		setSenha("usuario1234");
+		setTipo("Cliente");
 	}
 
-	public Usuario(int codigo, String nome, String email, String senha, String tipo) {
+	public Usuario(int codigo, String nome, String email, String senha, String tipo) throws IOException {
 		setCodigo(codigo);
 		setNome(nome);
 		setEmail(email);
@@ -27,29 +29,45 @@ public class Usuario {
 		return codigo;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNome(String nome) throws IOException {
+		if (nome.length() < 2) {
+			throw new IOException("Nome precisa ter no mínimo 2 caracteres");
+		} else {
+			this.nome = nome;
+		}
 	}
 	public String getNome() {
 		return nome;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setEmail(String email) throws IOException {
+		if (!email.contains("@")) {
+			throw new IOException("Email inválido");
+		} else {
+			this.email = email;
+		}
 	}
 	public String getEmail() {
 		return email;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setSenha(String senha) throws IOException {
+		if (senha.length() < 8) {
+			throw new IOException("Senha precisa ter no mínimo 8 caracteres");
+		} else {
+			this.senha = senha;
+		}
 	}
 	public String getSenha() {
 		return senha;
 	}
 
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setTipo(String tipo) throws IOException {
+		if (tipo.equals("Cliente") || tipo.equals("Profissional") || tipo.equals("ADM")) {
+			this.tipo = tipo;
+		} else {
+			throw new IOException("Tipo de usuário inválido");
+		}
 	}
 	public String getTipo() {
 		return tipo;
