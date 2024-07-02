@@ -9,7 +9,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Controle controle = new Controle();
         int opc;
-        String nome, email, senha, tipo;
         do {
             if (!controle.isLogado()){
                 try {

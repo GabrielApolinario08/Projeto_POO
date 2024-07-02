@@ -3,3 +3,4 @@
 003;pedreiro
 004;pedreiro
 005;pedreiro
+349;cachorro
