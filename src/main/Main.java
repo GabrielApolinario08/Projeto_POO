@@ -8,7 +8,6 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         Controle controle = new Controle();
-        Adm  adm = new Adm(01, "pedro", "pedro@", "8888888888", "Adm");
         int opc;
         String nome, email, senha, tipo;
         do {
@@ -25,28 +24,14 @@ public class Main {
                             break;
                         case 1:
                             try {
-                                Object[] optionsCadastro = {"Cadastrar cliente", "Cadastrar profissional"};
-                                opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Cadastro - usuários", 0, 2, null, optionsCadastro, optionsCadastro[0]);
-
-                                switch (opc) {
-                                    case 0:
-                                        controle.cadastrarCliente();
-                                        break;
-                                    case 1:
-                                        controle.cadastrarProfissional();
-                                        break;
-                                    case 2:
-                                        JOptionPane.showInternalMessageDialog(null,"Operação cancelada, fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-                                        System.exit(0);
-                                    default:
-                                        JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-                                        System.exit(0);
-                                }
+                                controle.cadastrar();
                             } catch (NumberFormatException e) {
                                 JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                                 System.exit(0);
                             } catch (NullPointerException e) {
                                 JOptionPane.showMessageDialog(null, "Opção inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
+                            }catch (Exception e) {
+                                throw new RuntimeException(e);
                             }
                             break;
                         default:
@@ -64,6 +49,9 @@ public class Main {
             else {
                 // USER = ADM
                 if (controle.getTipoUser().equals("ADM")) {
+                    Adm adm = new Adm();
+                    adm.mostrarProfissao();
+
                     Object[] optionsCadastroProfissao = {"Cadastrar profissão", "Cadastrar ADM", "Sair"};
                     while (true) {
                         opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - ADM", 0, 3, null, optionsCadastroProfissao, optionsCadastroProfissao[0]);
