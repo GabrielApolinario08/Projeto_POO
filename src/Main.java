@@ -62,20 +62,24 @@ public class Main {
             else {
                 // USER = ADM
                 if (controle.getTipoUser().equals("ADM")) {
-                    Object[] optionsCadastroProfissao = {"Cadastrar profissão", "Sair"};
-                    opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - ADM", 0, 2, null, optionsCadastroProfissao, optionsCadastroProfissao[0]);
-                    switch (opc) {
-                        case 0:
-                            adm.cadastrarProfissao(JOptionPane.showInputDialog(null, "Informe o nome da profissão:", "Cadastro - Profissão", JOptionPane.QUESTION_MESSAGE));
-                            break;
-                        case 1:
-                            adm.arquivar();
-                            JOptionPane.showMessageDialog(null, "Profissões cadastradas com sucesso.\nFim do programa", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-                            break;
-                        default:
-                            JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-                            System.exit(0);
-                            break;
+                    Object[] optionsCadastroProfissao = {"Cadastrar profissão", "Cadastrar ADM", "Sair"};
+                    while (true) {
+                        opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - ADM", 0, 3, null, optionsCadastroProfissao, optionsCadastroProfissao[0]);
+                        switch (opc) {
+                            case 0:
+                                adm.cadastrarProfissao(JOptionPane.showInputDialog(null, "Informe o nome da profissão:", "Cadastro - Profissão", JOptionPane.QUESTION_MESSAGE));
+                                break;
+                            case 1:
+                                controle.cadastrarAdm();
+                                break;
+                            case 2:
+                                adm.arquivar();
+                                JOptionPane.showMessageDialog(null, "Profissões cadastradas com sucesso.\nFim do programa", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                                System.exit(0);
+                            default:
+                                JOptionPane.showInternalMessageDialog(null,"Operação cancelada, fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                                System.exit(0);
+                        }
                     }
                 // USER = PROFISSIONAL
                 } else if(controle.getTipoUser().equals("Profissional")) {
@@ -86,7 +90,6 @@ public class Main {
                     System.out.println("CLIENTEEEEEEEEEEEEE");
                     break;
                 }
-                break;
             }
         } while (true);
     }

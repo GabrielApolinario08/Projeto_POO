@@ -131,6 +131,53 @@ public class Controle {
         }
     }
 
+    public void cadastrarAdm() {
+        int cod;
+        JTextField nome = new JTextField();
+        JTextField email = new JTextField();
+        JTextField senha = new JTextField();
+        try {
+            Object[] message = {
+                    "Nome:", nome,
+                    "Email:", email,
+                    "Senha:", senha,
+            };
+
+            while (true) {
+                int opt = JOptionPane.showConfirmDialog(null, message, "Cadastrar ADM", JOptionPane.OK_CANCEL_OPTION);
+                if (opt != JOptionPane.OK_OPTION) {
+                    JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                    System.exit(0);
+                }
+
+                if (nome.getText().length() < 2) {
+                    JOptionPane.showMessageDialog(null, "Nome precisa ter no mínimo 2 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
+                } else if (!email.getText().contains("@") && !email.getText().contains(".")) {
+                    JOptionPane.showMessageDialog(null, "Email incorreto.", "Erro", JOptionPane.INFORMATION_MESSAGE);
+                } else if (senha.getText().length() < 8) {
+                    JOptionPane.showMessageDialog(null, "Senha precisa ter no mínimo 8 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    break;
+                }
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, "Opção inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+
+        try {
+            cod = codigoAleatorio();
+            Adm adm = new Adm(cod, nome.getText(), email.getText(), senha.getText(), "ADM");
+            usuarioTxt.write(adm.toString());
+            usuarioTxt.newLine();
+            JOptionPane.showMessageDialog(null, "ADM cadastrado com sucesso!", null, JOptionPane.INFORMATION_MESSAGE);
+        } catch(Exception e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
     public int codigoAleatorio() throws Exception {
         Set<Integer> ids = new HashSet<>();
         try {
