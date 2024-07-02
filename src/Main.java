@@ -1,13 +1,10 @@
 import entity.Adm;
-import entity.Cliente;
 import entity.Controle;
 
 import javax.swing.*;
 import java.io.*;
-import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws IOException {
-        Scanner entrada = new Scanner(System.in);
         Controle controle = new Controle();
         Adm adm = new Adm(01, "pedro", "pedro@", "8888888888", "Adm");
         int opc;
@@ -15,13 +12,13 @@ public class Main {
         do {
             if (!controle.isLogado()){
                 try {
-                    Object[] optionsMenu = {"Entrar", "Cadastrar", "Sair"};
+                    Object[] optionsMenu = {"Entrar", "Cadastrar", "Cancelar"};
                     opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu", 0, 3, null, optionsMenu, optionsMenu[0]);
 
 
                     switch (opc) {
                         case 0:
-                            controle.logar(entrada);
+                            controle.logar();
                             controle.setLogado(true);
                             break;
                         case 1:
@@ -36,6 +33,9 @@ public class Main {
                                     case 1:
                                         controle.cadastrarProfissional();
                                         break;
+                                    case 2:
+                                        JOptionPane.showInternalMessageDialog(null,"Operação cancelada, fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                                        System.exit(0);
                                     default:
                                         JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                                         System.exit(0);

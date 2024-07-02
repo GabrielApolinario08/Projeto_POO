@@ -1,13 +1,10 @@
 package entity;
 
 import java.io.*;
-import java.util.Scanner;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Random;
+import java.util.*;
 import javax.swing.*;
 public class Controle {
-    private BufferedWriter usuarioTxt;
+    private BufferedWriter usuariosTxt;
     private final String arquivo = "usuarios.txt";
     private boolean logado;
 
@@ -15,7 +12,7 @@ public class Controle {
 
     public Controle() {
         try {
-            usuarioTxt = new BufferedWriter(new FileWriter(arquivo, true));
+            usuariosTxt = new BufferedWriter(new FileWriter(arquivo, true));
         } catch (IOException e) {
             System.err.println("Erro ao abrir o arquivo: " + e.getMessage());
         }
@@ -32,6 +29,7 @@ public class Controle {
 
 
     public void cadastrarCliente() throws IOException {
+        usuariosTxt = new BufferedWriter(new FileWriter(arquivo, true));
         int cod;
         JTextField nome = new JTextField();
         JTextField email = new JTextField();
@@ -69,9 +67,10 @@ public class Controle {
         try {
             cod = codigoAleatorio();
             Cliente cliente = new Cliente(cod, nome.getText(), email.getText(), senha.getText(), "Cliente");
-            usuarioTxt.write(cliente.toString());
-            usuarioTxt.newLine();
-            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!", null, JOptionPane.INFORMATION_MESSAGE);
+            usuariosTxt.write(cliente.toString());
+            usuariosTxt.newLine();
+            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+            usuariosTxt.close();
 
         }catch(Exception e) {
             System.err.println(e.getMessage());
@@ -79,12 +78,28 @@ public class Controle {
         }
 
     }
+    private static String[] carregarProfissoesDeArquivo(String fileName) {
+        List<String> profissaoList = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                profissaoList.add(linha);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return profissaoList.toArray(new String[0]);
+    }
     public void cadastrarProfissional() throws IOException {
+        usuariosTxt = new BufferedWriter(new FileWriter(arquivo, true));
         int cod;
         JTextField nome = new JTextField();
         JTextField email = new JTextField();
         JTextField senha = new JTextField();
-        JTextField profissao = new JTextField();
+        String[] profissoes = carregarProfissoesDeArquivo("profissoes.txt");
+        JComboBox<String> profissao = new JComboBox<>(profissoes);
+        profissao.setSelectedItem("Selecione uma opção");
+
         try {
             Object[] message = {
                     "Nome:", nome,
@@ -102,14 +117,11 @@ public class Controle {
 
                 if (nome.getText().length() < 2) {
                     JOptionPane.showMessageDialog(null, "Nome precisa ter no mínimo 2 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else if (!email.getText().contains("@") && !email.getText().contains(".")) {
+                } else if (!email.getText().contains("@") || !email.getText().contains(".")) {
                     JOptionPane.showMessageDialog(null, "Email incorreto.", "Erro", JOptionPane.INFORMATION_MESSAGE);
                 } else if (senha.getText().length() < 8) {
                     JOptionPane.showMessageDialog(null, "Senha precisa ter no mínimo 8 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else if (profissao.getText().length() < 2) {
-                    JOptionPane.showMessageDialog(null, "Profissão precisa ter no mínimo 2 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else {
+                } else {
                     break;
                 }
             }
@@ -122,16 +134,18 @@ public class Controle {
 
         try {
             cod = codigoAleatorio();
-            Profissional profissional = new Profissional(cod, nome.getText(), email.getText(), senha.getText(), "Profissional", profissao.getText());
-            usuarioTxt.write(profissional.toString());
-            usuarioTxt.newLine();
-            JOptionPane.showMessageDialog(null, "Profissional cadastrado com sucesso!", null, JOptionPane.INFORMATION_MESSAGE);
+            Profissional profissional = new Profissional(cod, nome.getText(), email.getText(), senha.getText(), "Profissional", (String)profissao.getSelectedItem());
+            usuariosTxt.write(profissional.toString());
+            usuariosTxt.newLine();
+            JOptionPane.showMessageDialog(null, "Profissional cadastrado com sucesso!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+            usuariosTxt.close();
         }catch(Exception e) {
             System.err.println(e.getMessage());
         }
     }
 
-    public void cadastrarAdm() {
+    public void cadastrarAdm() throws IOException {
+        usuariosTxt = new BufferedWriter(new FileWriter(arquivo, true));
         int cod;
         JTextField nome = new JTextField();
         JTextField email = new JTextField();
@@ -152,7 +166,7 @@ public class Controle {
 
                 if (nome.getText().length() < 2) {
                     JOptionPane.showMessageDialog(null, "Nome precisa ter no mínimo 2 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else if (!email.getText().contains("@") && !email.getText().contains(".")) {
+                } else if (!email.getText().contains("@") || !email.getText().contains(".")) {
                     JOptionPane.showMessageDialog(null, "Email incorreto.", "Erro", JOptionPane.INFORMATION_MESSAGE);
                 } else if (senha.getText().length() < 8) {
                     JOptionPane.showMessageDialog(null, "Senha precisa ter no mínimo 8 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
@@ -170,9 +184,10 @@ public class Controle {
         try {
             cod = codigoAleatorio();
             Adm adm = new Adm(cod, nome.getText(), email.getText(), senha.getText(), "ADM");
-            usuarioTxt.write(adm.toString());
-            usuarioTxt.newLine();
-            JOptionPane.showMessageDialog(null, "ADM cadastrado com sucesso!", null, JOptionPane.INFORMATION_MESSAGE);
+            usuariosTxt.write(adm.toString());
+            usuariosTxt.newLine();
+            JOptionPane.showMessageDialog(null, "ADM cadastrado com sucesso!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+            usuariosTxt.close();
         } catch(Exception e) {
             System.err.println(e.getMessage());
         }
@@ -202,6 +217,7 @@ public class Controle {
         }
 
         if (ids.size() == 1000) {
+            JOptionPane.showMessageDialog(null, "Não há IDs disponíveis.", "Erro", JOptionPane.ERROR_MESSAGE);
             throw new Exception("Não há IDs disponíveis.");
         }
 
@@ -213,8 +229,8 @@ public class Controle {
 
         return cod;
     }
-    public void logar(Scanner entrada) throws IOException {
-        usuarioTxt.close();
+    public void logar() throws IOException {
+        usuariosTxt.close();
         Usuario user = new Usuario();
         boolean certo = true, emailCorrect, passwordCorrect;
         JTextField email = new JTextField();
