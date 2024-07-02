@@ -58,58 +58,10 @@ public class Controle {
         }
         usuariosTxt.write(usuario.toString());
         usuariosTxt.newLine();
+        usuariosTxt.close();
     }
 
-    public void cadastrarCliente() throws IOException {
-        usuariosTxt = new BufferedWriter(new FileWriter(arquivo, true));
-        int cod;
-        JTextField nome = new JTextField();
-        JTextField email = new JTextField();
-        JTextField senha = new JTextField();
-        try {
-            Object[] message = {
-                    "Nome:", nome,
-                    "Email:", email,
-                    "Senha:", senha
-            };
 
-            while (true) {
-                int opt = JOptionPane.showConfirmDialog(null, message, "Cadastrar Cliente", JOptionPane.OK_CANCEL_OPTION);
-                if (opt != JOptionPane.OK_OPTION) {
-                    JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-                    System.exit(0);
-                }
-                if (nome.getText().length() < 2) {
-                    JOptionPane.showMessageDialog(null, "Nome precisa ter no mínimo 2 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else if (!email.getText().contains("@") && !email.getText().contains(".")) {
-                    JOptionPane.showMessageDialog(null, "Email incorreto.", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else if (senha.getText().length() < 8) {
-                    JOptionPane.showMessageDialog(null, "Senha precisa ter no mínimo 8 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    break;
-                }
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0);
-        } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "Opção inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-
-        try {
-            cod = codigoAleatorio();
-            Cliente cliente = new Cliente(cod, nome.getText(), email.getText(), senha.getText(), "Cliente");
-            usuariosTxt.write(cliente.toString());
-            usuariosTxt.newLine();
-            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-            usuariosTxt.close();
-
-        }catch(Exception e) {
-            System.err.println(e.getMessage());
-
-        }
-
-    }
     private static String[] carregarProfissoesDeArquivo(String fileName) {
         List<String> profissaoList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
@@ -122,59 +74,7 @@ public class Controle {
         }
         return profissaoList.toArray(new String[0]);
     }
-    public void cadastrarProfissional() throws IOException {
-        usuariosTxt = new BufferedWriter(new FileWriter(arquivo, true));
-        int cod;
-        JTextField nome = new JTextField();
-        JTextField email = new JTextField();
-        JTextField senha = new JTextField();
-        String[] profissoes = carregarProfissoesDeArquivo("profissoes.txt");
-        JComboBox<String> profissao = new JComboBox<>(profissoes);
-        profissao.setSelectedItem("Selecione uma opção");
 
-        try {
-            Object[] message = {
-                    "Nome:", nome,
-                    "Email:", email,
-                    "Senha:", senha,
-                    "Profissão:", profissao
-            };
-
-            while (true) {
-                int opt = JOptionPane.showConfirmDialog(null, message, "Cadastrar profissional", JOptionPane.OK_CANCEL_OPTION);
-                if (opt != JOptionPane.OK_OPTION) {
-                    JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-                    System.exit(0);
-                }
-
-                if (nome.getText().length() < 2) {
-                    JOptionPane.showMessageDialog(null, "Nome precisa ter no mínimo 2 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else if (!email.getText().contains("@") || !email.getText().contains(".")) {
-                    JOptionPane.showMessageDialog(null, "Email incorreto.", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else if (senha.getText().length() < 8) {
-                    JOptionPane.showMessageDialog(null, "Senha precisa ter no mínimo 8 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    break;
-                }
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0);
-        } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "Opção inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-
-        try {
-            cod = codigoAleatorio();
-            Profissional profissional = new Profissional(cod, nome.getText(), email.getText(), senha.getText(), "Profissional", (String)profissao.getSelectedItem());
-            usuariosTxt.write(profissional.toString());
-            usuariosTxt.newLine();
-            JOptionPane.showMessageDialog(null, "Profissional cadastrado com sucesso!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-            usuariosTxt.close();
-        }catch(Exception e) {
-            System.err.println(e.getMessage());
-        }
-    }
 
     public void cadastrarAdm() throws IOException {
         usuariosTxt = new BufferedWriter(new FileWriter(arquivo, true));
@@ -262,7 +162,7 @@ public class Controle {
         return cod;
     }
     public void logar() throws IOException {
-        usuariosTxt.close();
+
         Usuario user = new Usuario();
         boolean certo = true, emailCorrect, passwordCorrect;
         JTextField email = new JTextField();

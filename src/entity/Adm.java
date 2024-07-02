@@ -1,7 +1,7 @@
 package entity;
 
 import java.io.*;
-import java.util.Scanner;
+import java.util.*;
 
 public class Adm extends Usuario{
     private BufferedWriter profissoesTxt;
@@ -30,9 +30,10 @@ public class Adm extends Usuario{
         return super.toString();
     }
 
-    public void cadastrarProfissao(String services) throws IOException {
+
+    public void cadastrarProfissao(String service) throws Exception {
         boolean registeredService = true;
-        String service = "";
+
         Scanner scanner = new Scanner(System.in);
         Profissao profissao = new Profissao();
 
@@ -53,7 +54,7 @@ public class Adm extends Usuario{
         }
         if (!registeredService) {
             profissao.setName(service);
-            profissoesTxt.write(profissao.getName());
+            profissoesTxt.write(codigoAleatorio() + ";" + profissao.getName());
             profissoesTxt.newLine();
             profissoesTxt.close();
             System.out.println("Serviço cadastrada com sucesso!");
@@ -68,43 +69,79 @@ public class Adm extends Usuario{
         System.out.println("Lista de Serviços!");
         while (br.ready()) {
             String line = br.readLine().trim();
-            System.out.println((cont + 1) + ") " + line);
+            String[] campos;
+            campos = line.split(";");
+            System.out.println("Código: " + campos[0] + " Profissão: " + campos[1]);
             cont++;
         }
 
     }
 
-    public void removerProfissão() throws IOException {
-        boolean registeredService = true;
-        String service = "";
+    public void removerProfissao() throws IOException {
         Scanner scanner = new Scanner(System.in);
-        Profissao profissao = new Profissao();
+        ArrayList<String[]> allLines = new ArrayList<>();
+        String[] lineRemove = new String[2];
+        FileReader fr = new FileReader(arquivo);
+        BufferedReader br = new BufferedReader(fr);
+        while (br.ready()) {
+            String line = br.readLine();
+            String[] campos = line.split(";");
+            allLines.add(campos);
+        }
+
 
         mostrarProfissao();
-        System.out.println("Digite o número do serviço que deseja remover: (Ex: 2)");
-        while (registeredService) {
-            registeredService = false;
-            System.out.println("Removendo profissão!");
-            System.out.println("Informe o nome da profissão: ");
-            service = scanner.nextLine();
-            FileReader fr = new FileReader(arquivo);
-            BufferedReader br = new BufferedReader(fr);
-            while (br.ready()) {
-                String line = br.readLine().trim();
-                if (line.equals(service)) {
-                    System.out.println("Serviço já cadastrado!");
-                    registeredService = true;
-                }
+        System.out.println("Digite o código da profissão que quer remover: ");
+        String cod = scanner.nextLine();
+        for (String[] campos:allLines) {
+            if (campos[0].equals(cod)) {
+                lineRemove = campos;
             }
         }
-        if (!registeredService) {
-            profissao.setName(service);
-            profissoesTxt.write(profissao.getName());
+        allLines.remove(lineRemove);
+        profissoesTxt = new BufferedWriter(new FileWriter(arquivo));
+        for (String[] campos:allLines) {
+            profissoesTxt.write(campos[0] + ";" + campos[1]);
             profissoesTxt.newLine();
-            profissoesTxt.close();
-            System.out.println("Serviço cadastrada com sucesso!");
+        }
+        System.out.println("Serviço removido com sucesso!");
+        profissoesTxt.close();
+    }
+
+    public int codigoAleatorio() throws Exception {
+        Set<Integer> ids = new HashSet<>();
+        try {
+            FileReader fr = new FileReader("profissoes.txt");
+            BufferedReader br = new BufferedReader(fr);
+
+            while (br.ready()) {
+                String linha = br.readLine();
+                int p1 = linha.indexOf(';');
+                int p2 = linha.indexOf(';', p1 + 1);
+                if (p1 != -1 && p2 != -1) {
+                    int id = Integer.parseInt(linha.substring(p1 + 1, p2));
+                    ids.add(id);
+                }
+            }
+
+            br.close();
+            fr.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
+        if (ids.size() == 1000) {
+            throw new Exception("Não há IDs disponíveis.");
+        }
+
+        int cod;
+        Random random = new Random();
+        do {
+            cod = random.nextInt(1000) + 1;
+        } while (ids.contains(cod));
+
+        return cod;
     }
 
     public void arquivar() throws IOException {

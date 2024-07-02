@@ -6,7 +6,7 @@ import entity.Controle;
 import javax.swing.*;
 import java.io.*;
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         Controle controle = new Controle();
         int opc;
         String nome, email, senha, tipo;
@@ -50,7 +50,6 @@ public class Main {
                 // USER = ADM
                 if (controle.getTipoUser().equals("ADM")) {
                     Adm adm = new Adm();
-                    adm.mostrarProfissao();
 
                     Object[] optionsCadastroProfissao = {"Cadastrar profissão", "Cadastrar ADM", "Sair"};
                     while (true) {
@@ -84,7 +83,7 @@ public class Main {
         } while (true);
     }
 
-    public static void restart() throws IOException {
+    public static void restart() throws Exception {
         main(null);
     }
 }
