@@ -1,9 +1,11 @@
 package entity;
 
 import main.Main;
+
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
+
 public class Controle {
     private BufferedWriter usuariosTxt;
     private final String arquivo = "usuarios.txt";
@@ -22,7 +24,8 @@ public class Controle {
     public void setLogado(boolean logado) {
         this.logado = logado;
     }
-    public boolean isLogado(){
+
+    public boolean isLogado() {
         return logado;
     }
 
@@ -33,6 +36,7 @@ public class Controle {
         usuariosTxt.close();
     }
 
+
     public static String[] carregarProfissoesDeArquivo(String fileName) {
         List<String> profissaoList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
@@ -41,8 +45,8 @@ public class Controle {
             while ((linha = br.readLine()) != null) {
 
                 for (int i = 0; i < linha.length(); i++) {
-                    if (linha.charAt(i) == ';'){
-                        linhaProf = linha.substring(i+1, linha.length());
+                    if (linha.charAt(i) == ';') {
+                        linhaProf = linha.substring(i + 1, linha.length());
                         profissaoList.add(linhaProf);
                     }
                 }
@@ -52,79 +56,23 @@ public class Controle {
         }
         return profissaoList.toArray(new String[0]);
     }
-    public static String[] carregarProfissionais(String fileName) {
-        List<String> profissionalList = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String linha;
-            String linhaProf;
-            String tipo, nome, profissao;
-            int ver = 0;
-            while ((linha = br.readLine()) != null) {
 
-                String[] campos = linha.split(";");
-                tipo = campos[0];
-                if(tipo.equals("Profissional")){
-                    linhaProf = campos[2] + "(" + campos[5] + ")";
-                    profissionalList.add(linhaProf);
-                }
-
-
-
+    public boolean emailExistente(String email) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(arquivo));
+        while (br.ready()) {
+            String[] colunas = br.readLine().split(";");
+            if (colunas[3].equals(email)) {
+                return true;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return profissionalList.toArray(new String[0]);
+        return false;
     }
 
-
-    public void cadastrarAdm() throws IOException {
+    public void cadastrarAdmControle(Adm adm) throws Exception {
         usuariosTxt = new BufferedWriter(new FileWriter(arquivo, true));
-        int cod;
-        JTextField nome = new JTextField();
-        JTextField email = new JTextField();
-        JTextField senha = new JTextField();
-        try {
-            Object[] message = {
-                    "Nome:", nome,
-                    "Email:", email,
-                    "Senha:", senha,
-            };
-
-            while (true) {
-                int opt = JOptionPane.showConfirmDialog(null, message, "Cadastrar ADM", JOptionPane.OK_CANCEL_OPTION);
-                if (opt != JOptionPane.OK_OPTION) {
-                    JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-                    System.exit(0);
-                }
-
-                if (nome.getText().length() < 2) {
-                    JOptionPane.showMessageDialog(null, "Nome precisa ter no mínimo 2 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else if (!email.getText().contains("@") || !email.getText().contains(".")) {
-                    JOptionPane.showMessageDialog(null, "Email incorreto.", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else if (senha.getText().length() < 8) {
-                    JOptionPane.showMessageDialog(null, "Senha precisa ter no mínimo 8 caracteres", "Erro", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    break;
-                }
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showInternalMessageDialog(null,"Fim do programa!", null, JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0);
-        } catch (NullPointerException e) {
-            JOptionPane.showMessageDialog(null, "Opção inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-
-        try {
-            cod = codigoAleatorio();
-            Adm adm = new Adm(cod, nome.getText(), email.getText(), senha.getText(), "ADM");
-            usuariosTxt.write(adm.toString());
-            usuariosTxt.newLine();
-            JOptionPane.showMessageDialog(null, "ADM cadastrado com sucesso!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-            usuariosTxt.close();
-        } catch(Exception e) {
-            System.err.println(e.getMessage());
-        }
+        usuariosTxt.write(adm.toString());
+        usuariosTxt.newLine();
+        usuariosTxt.close();
     }
 
     public int codigoAleatorio() throws Exception {
@@ -163,9 +111,54 @@ public class Controle {
 
         return cod;
     }
-    public void logar() throws IOException {
+    public static String[] carregarProfissionais(String fileName) {
+        List<String> profissionalList = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String linha;
+            String linhaProf;
+            String tipo, nome, profissao;
+            int ver = 0;
+            while ((linha = br.readLine()) != null) {
 
-        Usuario user = new Usuario();
+                String[] campos = linha.split(";");
+                tipo = campos[0];
+                if(tipo.equals("Profissional")){
+                    linhaProf = campos[2] + "(" + campos[5] + ")";
+                    profissionalList.add(linhaProf);
+                }
+
+
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return profissionalList.toArray(new String[0]);
+    }
+    public boolean logarControle(Usuario user) throws IOException {
+        FileReader fr = new FileReader(arquivo);
+        BufferedReader br = new BufferedReader(fr);
+        boolean emailCorrect = false, passwordCorrect = false;
+        while (br.ready()) {
+            String linha = br.readLine();
+            String[] campos = linha.split(";");
+            if (campos[3].equals(user.getEmail())) {
+                emailCorrect = true;
+                if (campos[4].equals(user.getSenha())) {
+                    user.setTipo(campos[0]);
+                    logado = true;
+                    return true;
+                }
+            }
+        }
+        if (!emailCorrect) {
+            throw new IllegalArgumentException("Email incorreto!");
+        }
+        if (!passwordCorrect) {
+            throw new IllegalArgumentException("Senha incorreta!");
+        }
+        return false;
+        /*Usuario user = new Usuario();
         boolean certo = true, emailCorrect, passwordCorrect;
         JTextField email = new JTextField();
         JTextField senha = new JTextField();
@@ -219,7 +212,7 @@ public class Controle {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
-        }
+        }*/
 
     }
 
@@ -230,4 +223,5 @@ public class Controle {
     public void setTipoUser(String tipoUser) {
         this.tipoUser = tipoUser;
     }
+
 }

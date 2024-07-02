@@ -11,7 +11,7 @@ public class Profissional extends Usuario{
 
     public Profissional() throws IOException {
         super();
-
+        setProfissao("");
     }
 
     public String getProfissao() {
