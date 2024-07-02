@@ -96,7 +96,7 @@ public class Main {
         main(null);
     }
 
-    //CARLIN METODO INUTIL (VOLTAR JÀ COM O SETLOGADO TRUE PARA ELE JÀ VOLTAR COMO LOGADO)
+    //CARLIN METODO INUTILL (VOLTAR JÀ COM O SETLOGADO TRUE PARA ELE JÀ VOLTAR COMO LOGADO)
     public static void restartLogado() throws Exception {
 
         Controle controle = new Controle();
