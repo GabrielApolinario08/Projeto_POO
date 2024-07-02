@@ -33,19 +33,13 @@ public class Adm extends Usuario{
     }
 
 
-    public void cadastrarProfissao() throws Exception {
+    public void cadastrarProfissao(String service, int opc) throws Exception {
         boolean registeredService = true;
 
-        String service = "";
         Profissao profissao = new Profissao();
-        JTextField profissaoField = new JTextField();
-        Object[] opcoes = {"OK", "Voltar"};
-        while (true){
-           int opc = JOptionPane.showOptionDialog(null, profissaoField, "Cadastro - Profissão", 0, 2, null, opcoes, opcoes[0]);
             switch (opc){
                 case 0:
 
-                    service = profissaoField.getText();
                     FileReader fr = new FileReader(arquivo);
                     BufferedReader br = new BufferedReader(fr);
                     boolean ver = true;
@@ -61,6 +55,7 @@ public class Adm extends Usuario{
                             }
 
                         }
+
                         if (ver){
                             profissao.setName(service);
                             profissoesTxt.write( codigoAleatorio() + ";" + profissao.getName());
@@ -69,11 +64,11 @@ public class Adm extends Usuario{
                             JOptionPane.showMessageDialog(null, "Serviço cadastrado com sucesso!!", "alerta",JOptionPane.INFORMATION_MESSAGE );
                         }
                     }
+                    profissoesTxt.close();
                     break;
-                    // CARLIN AJEITAR PARA QUANDO ELE SAIR JÀ VOLTAR COMO ADM LOGADO
+
                 case 1:
                     profissoesTxt.close();
-                    //System.exit(0);
                     Main.restart();
                     break;
 
@@ -82,7 +77,7 @@ public class Adm extends Usuario{
             }
 
 
-        }
+        //}
     }
 
     public void mostrarProfissao() throws IOException {
