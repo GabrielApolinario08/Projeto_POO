@@ -13,3 +13,4 @@ Profissional;484;caio;caio@;chocolate;chocolate
 Profissional;466;caio;caioca;caio;001;pedreiro
 Cliente;551;caio;caio@;caiocaio
 ADM;86;ADM23;adm@.;chocolate
+Cliente;579;caio;caio@;chocolate

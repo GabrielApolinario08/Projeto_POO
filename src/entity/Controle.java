@@ -26,81 +26,8 @@ public class Controle {
         return logado;
     }
 
-    public void cadastrar() throws Exception {
+    public void cadastrarControle(Usuario usuario) throws Exception {
         usuariosTxt = new BufferedWriter(new FileWriter(arquivo, true));
-        Usuario usuario = new Usuario();
-        JTextField nome = new JTextField();
-        JTextField email = new JTextField();
-        JTextField senha = new JTextField();
-        JComboBox<String> profissao = new JComboBox<>(carregarProfissoesDeArquivo("profissoes.txt"));
-        profissao.insertItemAt("Selecione", 0);
-        profissao.setSelectedIndex(0);
-        int opc;
-        Object[] optionsMenu = {"Cliente", "Profissional", "Voltar"};
-        opc = JOptionPane.showOptionDialog(null,"Cadastrar como:", "Menu - cadastrar", 0, 3, null, optionsMenu, optionsMenu[0]);
-        if (opc == -1) {
-            JOptionPane.showMessageDialog(null, "Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-            System.exit(0);
-        }
-        Object[] optionsCad;
-
-
-        switch (opc) {
-            case 0:
-                 optionsCad = new Object[]{
-                        "Nome:", nome,
-                        "Email:", email,
-                        "Senha:", senha
-                };
-                while (true) {
-                    int  result = JOptionPane.showConfirmDialog(null, optionsCad, "Cadastrar cliente", JOptionPane.OK_CANCEL_OPTION);
-                    if (nome.getText().length() < 2 && result == JOptionPane.OK_OPTION) {
-                        JOptionPane.showMessageDialog(null,"Nome deve conter 3 caracteres");
-                    } if (!email.getText().contains("@") && result == JOptionPane.OK_OPTION) JOptionPane.showMessageDialog(null,"Email inválido");
-                    if (senha.getText().length() < 8 && result == JOptionPane.OK_OPTION) {
-                        JOptionPane.showMessageDialog(null,"Senha deve conter 8 caracteres");
-                    }
-                    else if (result != JOptionPane.OK_OPTION) Main.restart();
-                    else {
-                        JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-                        break;
-                    }
-                }
-                usuario = new Cliente(codigoAleatorio(), nome.getText(), email.getText(), senha.getText(), "Cliente");
-                break;
-            case 1:
-                optionsCad = new Object[]{
-                        "Nome:", nome,
-                        "Email:", email,
-                        "Senha:", senha,
-                        "Profissão:", profissao
-                };
-                while (true) {
-                    int result = JOptionPane.showConfirmDialog(null, optionsCad, "Cadastrar profissional", JOptionPane.OK_CANCEL_OPTION);
-
-                    if (nome.getText().length() < 2 && result == JOptionPane.OK_OPTION) {
-                        JOptionPane.showMessageDialog(null,"Nome deve conter 3 caracteres");
-                    } if (!email.getText().contains("@") && result == JOptionPane.OK_OPTION) JOptionPane.showMessageDialog(null,"Email inválido");
-                    if (senha.getText().length() < 8 && result == JOptionPane.OK_OPTION) {
-                        JOptionPane.showMessageDialog(null,"Nome deve conter 8 caracteres");
-                    } if (profissao.getSelectedIndex() == 0 && result == JOptionPane.OK_OPTION) {
-                        JOptionPane.showMessageDialog(null,"Selecione uma profissão válida");
-                    }
-                    else if (result != JOptionPane.OK_OPTION) Main.restart();
-                    else {
-                        JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-                        break;
-                    }
-                }
-                usuario = new Profissional(codigoAleatorio(), nome.getText(), email.getText(), senha.getText(), "Profissional", (String)profissao.getSelectedItem());
-                break;
-            case 2:
-                Main.restart();
-                break;
-            default:
-                JOptionPane.showMessageDialog(null, "Opção inválida", "Erro", JOptionPane.ERROR_MESSAGE);
-                Main.restart();
-        }
         usuariosTxt.write(usuario.toString());
         usuariosTxt.newLine();
         usuariosTxt.close();

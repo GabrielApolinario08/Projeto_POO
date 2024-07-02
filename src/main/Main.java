@@ -1,14 +1,27 @@
 package main;
 
 import entity.Adm;
+import entity.Cliente;
 import entity.Controle;
+import entity.Usuario;
 
 import javax.swing.*;
 import java.io.*;
 public class Main {
     static String tipoUser;
+    static Usuario user;
+
+    static {
+        try {
+            user = new Usuario();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    static Controle controle = new Controle();
     public static void main(String[] args) throws Exception {
-        Controle controle = new Controle();
+        BufferedWriter usuariosTxt;
         int opc;
 
         boolean continueOuterLoop = true;
@@ -27,7 +40,7 @@ public class Main {
                             break;
                         case 1:
                             try {
-                                controle.cadastrar();
+                                cadastrar();
                             } catch (NumberFormatException e) {
                                 JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                                 System.exit(0);
@@ -103,6 +116,40 @@ public class Main {
         controle.setLogado(true);
         controle.setTipoUser(tipoUser);
         main(null);
+    }
+
+    public static void cadastrar() throws Exception {
+        Object[] optionsMenu = {"Cliente", "Profissional", "Voltar"};
+        int opc = JOptionPane.showOptionDialog(null,"Cadastrar como:", "Menu - cadastrar", 0, 3, null, optionsMenu, optionsMenu[0]);
+        Object[] optionsCad;
+        JTextField nome = new JTextField();
+        JTextField email = new JTextField();
+        JTextField senha = new JTextField();
+
+        switch (opc) {
+            case -1:
+                JOptionPane.showMessageDialog(null, "Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
+            case 0:
+                optionsCad = new Object[]{
+                        "Nome:", nome,
+                        "Email:", email,
+                        "Senha:", senha
+                };
+
+                while (true) {
+                    try {
+                        JOptionPane.showConfirmDialog(null, optionsCad, "Cadastrar cliente", JOptionPane.OK_CANCEL_OPTION);
+                        user = new Cliente(controle.codigoAleatorio(), nome.getText(), email.getText(), senha.getText(), "Cliente");
+                        controle.cadastrarControle(user);
+                        JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+        }
+
     }
 
 }

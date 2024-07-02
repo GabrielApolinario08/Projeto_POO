@@ -8,7 +8,7 @@ import java.util.*;
 public class Adm extends Usuario{
     private BufferedWriter profissoesTxt;
     private final String arquivo = "profissoes.txt";
-    public Adm(int codigo, String nome, String email, String senha, String tipo) {
+    public Adm(int codigo, String nome, String email, String senha, String tipo) throws IOException {
         super(codigo, nome, email, senha, tipo);
         try {
             profissoesTxt = new BufferedWriter(new FileWriter(arquivo, true));
@@ -18,11 +18,10 @@ public class Adm extends Usuario{
             System.err.println("Erro ao abrir o arquivo: " + e.getMessage());
         }
     }
-    public Adm() {
+    public Adm() throws IOException {
+        super();
         try {
             profissoesTxt = new BufferedWriter(new FileWriter(arquivo, true));
-
-
         } catch (IOException e) {
             System.err.println("Erro ao abrir o arquivo: " + e.getMessage());
         }
