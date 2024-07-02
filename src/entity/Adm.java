@@ -40,7 +40,7 @@ public class Adm extends Usuario{
         JTextField profissaoField = new JTextField();
         Object[] opcoes = {"OK", "Voltar"};
         while (true){
-           int opc = JOptionPane.showOptionDialog(null, profissaoField, "Cadastro - Profissão", 0, 2, null, opcoes, opcoes[0]);
+            int opc = JOptionPane.showOptionDialog(null, profissaoField, "Cadastro - Profissão", 0, 2, null, opcoes, opcoes[0]);
             switch (opc){
                 case 0:
 
@@ -69,7 +69,7 @@ public class Adm extends Usuario{
                         }
                     }
                     break;
-                    // CARLIN AJEITAR PARA QUANDO ELE SAIR JÀ VOLTAR COMO ADM LOGADO
+                // CARLIN AJEITAR PARA QUANDO ELE SAIR JÀ VOLTAR COMO ADM LOGADO
                 case 1:
                     profissoesTxt.close();
                     //System.exit(0);

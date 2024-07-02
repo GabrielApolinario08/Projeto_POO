@@ -33,17 +33,48 @@ public class Controle {
         usuariosTxt.close();
     }
 
-    private static String[] carregarProfissoesDeArquivo(String fileName) {
+    public static String[] carregarProfissoesDeArquivo(String fileName) {
         List<String> profissaoList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String linha;
+            String linhaProf;
             while ((linha = br.readLine()) != null) {
-                profissaoList.add(linha);
+
+                for (int i = 0; i < linha.length(); i++) {
+                    if (linha.charAt(i) == ';'){
+                        linhaProf = linha.substring(i+1, linha.length());
+                        profissaoList.add(linhaProf);
+                    }
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return profissaoList.toArray(new String[0]);
+    }
+    public static String[] carregarProfissionais(String fileName) {
+        List<String> profissionalList = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String linha;
+            String linhaProf;
+            String tipo, nome, profissao;
+            int ver = 0;
+            while ((linha = br.readLine()) != null) {
+
+                String[] campos = linha.split(";");
+                tipo = campos[0];
+                if(tipo.equals("Profissional")){
+                    linhaProf = campos[2] + "(" + campos[5] + ")";
+                    profissionalList.add(linhaProf);
+                }
+
+
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return profissionalList.toArray(new String[0]);
     }
 
 
