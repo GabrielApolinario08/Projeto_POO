@@ -3,3 +3,5 @@ farmacia
 pedreiro
 Jardineiro
 Eletricista
+Traficante
+Aviãozinho

@@ -9,7 +9,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner entrada = new Scanner(System.in);
         Controle controle = new Controle();
-        Adm adm = new Adm(01, "pedro", "pedro@", "8888888888", "Adm");
         int opc;
         String nome, email, senha, tipo;
         do {
@@ -17,8 +16,6 @@ public class Main {
                 try {
                     Object[] optionsMenu = {"Entrar", "Cadastrar", "Sair"};
                     opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu", 0, 3, null, optionsMenu, optionsMenu[0]);
-
-
                     switch (opc) {
                         case 0:
                             controle.logar(entrada);
@@ -26,25 +23,14 @@ public class Main {
                             break;
                         case 1:
                             try {
-                                Object[] optionsCadastro = {"Cadastrar cliente", "Cadastrar profissional"};
-                                opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Cadastro - usuários", 0, 2, null, optionsCadastro, optionsCadastro[0]);
-
-                                switch (opc) {
-                                    case 0:
-                                        controle.cadastrarCliente(entrada);
-                                        break;
-                                    case 1:
-                                        controle.cadastrarProfissional(entrada);
-                                        break;
-                                    default:
-                                        JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-                                        System.exit(0);
-                                }
+                                controle.cadastrar();
                             } catch (NumberFormatException e) {
                                 JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                                 System.exit(0);
                             } catch (NullPointerException e) {
                                 JOptionPane.showMessageDialog(null, "Opção inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
                             }
                             break;
                         default:
@@ -62,7 +48,10 @@ public class Main {
             else {
                 // USER = ADM
                 if (controle.getTipoUser().equals("ADM")) {
-                    Object[] optionsCadastroProfissao = {"Cadastrar profissão", "Sair"};
+                    Adm adm = new Adm();
+                    adm.mostrarProfissao();
+
+                   /* Object[] optionsCadastroProfissao = {"Cadastrar profissão", "Sair"};
                     opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - ADM", 0, 2, null, optionsCadastroProfissao, optionsCadastroProfissao[0]);
                     switch (opc) {
                         case 0:
@@ -76,7 +65,7 @@ public class Main {
                             JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                             System.exit(0);
                             break;
-                    }
+                    }*/
                 // USER = PROFISSIONAL
                 } else if(controle.getTipoUser().equals("Profissional")) {
                     System.out.println("PROFISSAAAAAAAAAAAAA");

@@ -1,5 +1,7 @@
 package entity;
 
+import com.sun.tools.javac.Main;
+
 import java.io.*;
 import java.util.Scanner;
 import java.util.HashSet;
@@ -30,7 +32,37 @@ public class Controle {
         return logado;
     }
 
-
+    public void cadastrar() throws Exception {
+        Scanner scanner = new Scanner(System.in);
+        Usuario usuario = new Usuario();
+        int opc;
+        String nome, email, senha;
+        System.out.println("Nome: ");
+        nome = scanner.nextLine();
+        System.out.println("Email: ");
+        email = scanner.nextLine();
+        System.out.println("Senha: ");
+        senha = scanner.nextLine();
+        Object[] optionsCadastro = {"Cadastrar cliente", "Cadastrar profissional"};
+        opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Cadastro - usuários", 0, 2, null, optionsCadastro, optionsCadastro[0]);
+        System.out.println(usuario);
+        switch (opc) {
+            case 0:
+                usuario = new Cliente(codigoAleatorio(), nome, email, senha, "Cliente");
+                break;
+            case 1:
+                String profissao;
+                System.out.println("Informe a profissão: ");
+                profissao = scanner.nextLine();
+                usuario = new Profissional(codigoAleatorio(), nome, email, senha, "Profissional", profissao);
+                break;
+            default:
+                JOptionPane.showInternalMessageDialog(null,"Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                System.exit(0);
+        }
+        usuarioTxt.write(usuario.toString());
+        usuarioTxt.newLine();
+    }
     public void cadastrarCliente(Scanner entrada) throws IOException {
         int cod;
         JTextField nome = new JTextField();
@@ -183,6 +215,7 @@ public class Controle {
 
         return cod;
     }
+
     public void logar(Scanner entrada) throws IOException {
         usuarioTxt.close();
         Usuario user = new Usuario();
