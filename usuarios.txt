@@ -14,3 +14,4 @@ Cliente;551;caio;caio@;caiocaio
 ADM;86;ADM23;adm@.;chocolate
 Profissional;94;carlos;carlos@;carlos12;cachorro
 Profissional;14;carlert;carlex@;12345678;cachorro
+ADM;728;aaaaa;aaaa@;12345677

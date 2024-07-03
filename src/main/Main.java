@@ -74,9 +74,10 @@ public class Main {
                             case 2 -> getServices(controleServicos);
                             case 3 -> deletService(controleServicos);
                             case 4 -> {
-                                controleServicos.arquivar();
-                                JOptionPane.showMessageDialog(null, "Deslogando!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                                 controle.setLogado(false);
+                                controleServicos.arquivar();
+                                System.out.println("sss"+ controle.isLogado());
+                                JOptionPane.showMessageDialog(null, "Deslogando!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                                 continueOuterLoop = false;
                             }
                             default -> {
@@ -87,8 +88,34 @@ public class Main {
                     }
                     // USER = PROFISSIONAL
                 } else if (tipoUser.equals("Profissional")) {
-                    System.out.println("PROFISSAAAAAAAAAAAAA");
-                    break;
+                    Object[] optionsCliente = {"Visualizar profissionais", "Sair"};
+
+                    while (true) {
+                        opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - Profissional", 0, 2, null, optionsCliente, optionsCliente[0]);
+                        switch (opc) {
+                            case 0:
+                                String[] profissionais = controle.carregarProfissionais("usuarios.txt");
+                                JComboBox<String> profissional = new JComboBox<>(profissionais);
+                                profissional.setSelectedItem("Selecione uma opção");
+
+                                JOptionPane.showMessageDialog(null, profissional, "Profissionais disponiveis", JOptionPane.OK_OPTION);
+
+                                break;
+                            case 1:
+                                JOptionPane.showMessageDialog(null, "Deslogando!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                                controle.setLogado(false);
+                                continueOuterLoop = true;
+
+                                break;
+
+                            default:
+                                JOptionPane.showInternalMessageDialog(null,"Operação cancelada, fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                                System.exit(0);
+                        }
+                        if (continueOuterLoop) {
+                            break;  // Sai do loop interno
+                        }
+                    }
                     // USER = CLIENTE
                 } else {
                     Object[] optionsCliente = {"Visualizar profissionais", "Sair"};
@@ -122,7 +149,7 @@ public class Main {
 
                 }
             }
-        } while (continueOuterLoop);
+        } while (true);
     }
 
     public static void restart() throws Exception {
@@ -239,6 +266,8 @@ public class Main {
 
     }
 
+//
+
     public static void postServico(ControleServicos controleServicos) throws Exception {
         String service;
         Profissao profissao = new Profissao();
@@ -258,7 +287,10 @@ public class Main {
                         JOptionPane.showMessageDialog(null, "Serviço já cadastrado", "alerta", JOptionPane.ERROR_MESSAGE);
                     }
                 }
-                case 1 -> Main.restart();
+                case 1 -> {
+                    continuarLoop = false;
+                }
+
                 default ->
                         JOptionPane.showInternalMessageDialog(null, "Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -278,21 +310,31 @@ public class Main {
                 "Email:", email,
                 "Senha:", senha
         };
-        while (true) {
-            try {
-                int opt = JOptionPane.showConfirmDialog(null, message, "Cadastrar ADM", JOptionPane.OK_CANCEL_OPTION);
-                adm = new Adm(controle.codigoAleatorio(), nome.getText(), email.getText(), senha.getText(), "ADM");
-                if (controle.emailExistente(adm.getEmail())) throw new IOException("Email Existente!");
-                controle.cadastrarAdmControle(adm);
-                JOptionPane.showMessageDialog(null, "ADM cadastrado com sucesso!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-                if (opt != JOptionPane.OK_OPTION) {
-                    JOptionPane.showInternalMessageDialog(null, "Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-                    System.exit(0);
-                }
-                break;
-            } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        Object[] options = new Object[]{"OK", "Voltar"};
+        int opt;
+        boolean loop = true;
+        while (loop) {
+            opt = JOptionPane.showOptionDialog(null, message, "Cadastrar ADM", 0, 2,null, options, options[0]);
+            switch (opt){
+                case 1:
+                    try {
+
+
+                        adm = new Adm(controle.codigoAleatorio(), nome.getText(), email.getText(), senha.getText(), "ADM");
+                        if (controle.emailExistente(adm.getEmail())) throw new IOException("Email Existente!");
+                        controle.cadastrarAdmControle(adm);
+                        JOptionPane.showMessageDialog(null, "ADM cadastrado com sucesso!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                        break;
+                    } catch (IOException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                case 2:
+                    JOptionPane.showMessageDialog(null, "Voltando!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                    loop = false;
+                    break;
+
             }
+
 
         }
     }
@@ -327,7 +369,7 @@ public class Main {
                     JOptionPane.showMessageDialog(null, "Serviço deletado com sucesso!!", "alerta", JOptionPane.INFORMATION_MESSAGE);
                     continuarLoop = false;
                 }
-                case 1 -> Main.restart();
+                case 1 -> continuarLoop = false;
                 default ->
                         JOptionPane.showInternalMessageDialog(null, "Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
             }
