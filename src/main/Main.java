@@ -91,17 +91,13 @@ public class Main {
                                 String[] profissionais = controle.carregarProfissionais("usuarios.txt");
                                 JComboBox<String> profissional = new JComboBox<>(profissionais);
                                 profissional.setSelectedItem("Selecione uma opção");
-
                                 JOptionPane.showMessageDialog(null, profissional, "Profissionais disponíveis", JOptionPane.OK_OPTION);
-
                                 break;
                             case 1:
                                 JOptionPane.showMessageDialog(null, "Deslogando!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                                 controle.setLogado(false);
                                 continueOuterLoop = true;
-
                                 break;
-
                             default:
                                 JOptionPane.showInternalMessageDialog(null,"Operação cancelada, fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                                 System.exit(0);
@@ -338,7 +334,17 @@ public class Main {
 
     public static void getServices(ControleServicos controleAdm) throws IOException {
         JComboBox<String> profissional = new JComboBox<>(controleAdm.mostrarProfissao());
-        JOptionPane.showMessageDialog(null, profissional, "Profissionais disponíveis", JOptionPane.OK_OPTION);
+        Object[] message = {
+                "Profissionais:", profissional
+        };
+        Object[] options = {"OK"};
+        int opc = JOptionPane.showOptionDialog(null, message, "Profissionais disponíveis",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                null, options, options[0]);
+        if (opc == -1) {
+            JOptionPane.showMessageDialog(null, "Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
     }
 
     public static void deletService(ControleServicos controleServicos) throws Exception {
