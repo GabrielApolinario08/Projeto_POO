@@ -18,7 +18,8 @@ public class Profissional extends Usuario{
         return profissao;
     }
 
-    public void setProfissao(String profissao) {
+    public void setProfissao(String profissao) throws IOException {
+        if(profissao.equals("Selecione uma opção")) throw new IOException("Selecione uma opção válida");
         this.profissao = profissao;
     }
 
