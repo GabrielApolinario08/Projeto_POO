@@ -57,9 +57,8 @@ public class Main {
                 // USER = ADM
 
                 if (user.getTipo().equals("ADM")) {
-                    Adm adm = new Adm();
                     ControleServicos controleServicos = new ControleServicos();
-                    Object[] optionsCadastroProfissao = {"Cadastrar Serviço", "Cadastrar ADM", "Mostrar Serviços", "Deletar Serviço", "Sair"};
+                    Object[] optionsCadastroProfissao = {"Cadastrar novo serviço", "Cadastrar ADM", "Mostrar Serviços", "Deletar Serviço", "Sair"};
                     while (continueOuterLoop) {
                         opc = JOptionPane.showOptionDialog(null, "Selecione uma das opções:", "Menu - ADM", 0, 3, null, optionsCadastroProfissao, optionsCadastroProfissao[0]);
                         switch (opc) {
@@ -129,9 +128,7 @@ public class Main {
                                 JOptionPane.showMessageDialog(null, "Deslogando!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                                 controle.setLogado(false);
                                 continueOuterLoop = true;
-
                                 break;
-
                             default:
                                 JOptionPane.showInternalMessageDialog(null,"Operação cancelada, fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                                 System.exit(0);
@@ -147,15 +144,6 @@ public class Main {
     }
 
     public static void restart() throws Exception {
-        main(null);
-    }
-
-    //CARLIN METODO INUTILL (VOLTAR JÀ COM O SETLOGADO TRUE PARA ELE JÀ VOLTAR COMO LOGADO)
-    public static void restartLogado() throws Exception {
-
-        Controle controle = new Controle();
-        controle.setLogado(true);
-        controle.setTipoUser(tipoUser);
         main(null);
     }
 
@@ -269,36 +257,43 @@ public class Main {
         }
     }
 
-//
-
     public static void postServico(ControleServicos controleServicos) throws Exception {
         String service;
         Profissao profissao = new Profissao();
         JTextField profissaoField = new JTextField();
+
         Object[] opcoes = {"OK", "Voltar"};
         boolean continuarLoop = true;
         while (continuarLoop) {
-            int opc = JOptionPane.showOptionDialog(null, profissaoField, "Cadastro - Profissão", 0, 2, null, opcoes, opcoes[0]);
-            switch (opc) {
-                case 0 -> {
-                    service = profissaoField.getText();
-                    profissao.setName(service);
-                    if (controleServicos.cadastrarProfissaoAdm(profissao)) {
-                        JOptionPane.showMessageDialog(null, "Serviço cadastrado com sucesso!!", "alerta", JOptionPane.INFORMATION_MESSAGE);
-                        continuarLoop = false;
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Serviço já cadastrado", "alerta", JOptionPane.ERROR_MESSAGE);
+            Object[] message = {
+                    "Informe o nome da profissão:", profissaoField
+            };
+            try {
+                int opc = JOptionPane.showOptionDialog(null, message, "Cadastro - Profissão", 0, JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+                switch (opc) {
+                    case 0 -> {
+                        service = profissaoField.getText();
+                        profissao.setName(service);
+                        if (controleServicos.cadastrarProfissaoAdm(profissao)) {
+                            JOptionPane.showMessageDialog(null, "Serviço cadastrado com sucesso!!", "Alerta", JOptionPane.INFORMATION_MESSAGE);
+                            continuarLoop = false;
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Serviço já cadastrado.", "Alerta", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
-                }
-                case 1 -> {
-                    continuarLoop = false;
-                }
+                    case 1 -> {
+                        continuarLoop = false;
+                    }
 
-                default ->
+                    default ->{
                         JOptionPane.showInternalMessageDialog(null, "Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
-            }
-            // CARLIN AJEITAR PARA QUANDO ELE SAIR JÀ VOLTAR COMO ADM LOGADO
+                        System.exit(0);
+                    }
 
+                }
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
