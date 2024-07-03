@@ -132,7 +132,7 @@ public class Main {
         main(null);
     }
 
-    public static void logar() throws IOException {
+    public static void logar() {
 
         boolean certo = true;
         JTextField email = new JTextField();
@@ -182,6 +182,7 @@ public class Main {
         JTextField senha = new JTextField();
         String[] profissoes = controle.carregarProfissoesDeArquivo("profissoes.txt");
         JComboBox<String> profissao = new JComboBox<>(profissoes);
+        profissao.insertItemAt("Selecione uma opção", 0);
         profissao.setSelectedItem("Selecione uma opção");
 
         switch (opc) {
@@ -197,11 +198,17 @@ public class Main {
                 };
                 while (true) {
                     try {
-                        JOptionPane.showConfirmDialog(null, optionsCad, "Cadastrar cliente", JOptionPane.OK_CANCEL_OPTION);
+                        int opt = JOptionPane.showConfirmDialog(null, optionsCad, "Cadastrar cliente", JOptionPane.OK_CANCEL_OPTION);
+                        if (opt == -1) {
+                            JOptionPane.showMessageDialog(null, "Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                            System.exit(0);
+                        } if (opt == 2) {
+                            Main.restart();
+                        }
                         user = new Cliente(controle.codigoAleatorio(), nome.getText(), email.getText(), senha.getText(), "Cliente");
                         if (controle.emailExistente(user.getEmail())) throw new IOException("Email Existente!");
                         controle.cadastrarControle(user);
-                        JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                         break;
                     } catch (IOException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -219,10 +226,16 @@ public class Main {
 
                 while (true) {
                     try {
-                        JOptionPane.showConfirmDialog(null, optionsCad, "Cadastrar Profissional", JOptionPane.OK_CANCEL_OPTION);
+                        int opt = JOptionPane.showConfirmDialog(null, optionsCad, "Cadastrar Profissional", JOptionPane.OK_CANCEL_OPTION);
+                        if (opt == -1) {
+                            JOptionPane.showMessageDialog(null, "Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                            System.exit(0);
+                        } if (opt == 2) {
+                            Main.restart();
+                        }
                         user = new Profissional(controle.codigoAleatorio(), nome.getText(), email.getText(), senha.getText(), "Profissional", (String)profissao.getSelectedItem());
                         controle.cadastrarControle(user);
-                        JOptionPane.showMessageDialog(null, "Usuario cadastrado com sucesso", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                         break;
                     } catch (IOException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -230,7 +243,6 @@ public class Main {
                 }
             }
         }
-
     }
 
     public static void postServico(ControleServicos controleServicos) throws Exception {
@@ -262,7 +274,6 @@ public class Main {
     }
 
     public static void postAdm() throws Exception {
-        int cod;
         Adm adm;
         JTextField nome = new JTextField();
         JTextField email = new JTextField();
@@ -300,7 +311,7 @@ public class Main {
         }*/
 
         JComboBox<String> profissional = new JComboBox<>(controleAdm.mostrarProfissao());
-        JOptionPane.showMessageDialog(null, profissional, "Profissionais disponiveis", JOptionPane.OK_OPTION);
+        JOptionPane.showMessageDialog(null, profissional, "Profissionais disponíveis", JOptionPane.OK_OPTION);
     }
 
     public static void deletService(ControleServicos controleServicos) throws Exception {
@@ -314,7 +325,7 @@ public class Main {
                 case 0 -> {
                     String[] allServices = controleServicos.mostrarProfissao();
                     JComboBox<String> profissional = new JComboBox<>(allServices);
-                    JOptionPane.showMessageDialog(null, profissional, "Profissionais disponiveis", JOptionPane.OK_OPTION);
+                    JOptionPane.showMessageDialog(null, profissional, "Profissionais disponíveis", JOptionPane.OK_OPTION);
                     System.out.println((String) profissional.getSelectedItem());
                     String itemExcluido = (String) profissional.getSelectedItem();
                     controleServicos.deletServicoControle(itemExcluido);
