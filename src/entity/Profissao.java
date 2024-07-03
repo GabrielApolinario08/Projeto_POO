@@ -9,6 +9,10 @@ public class Profissao {
     public Profissao() throws IOException {
         setName("Profissão");
     }
+    public Profissao(String name, int codigo) throws IOException {
+        setName(name);
+        setCodigo(codigo);
+    }
 
     public String getName() {
         return name;

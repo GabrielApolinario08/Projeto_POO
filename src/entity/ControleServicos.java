@@ -18,6 +18,7 @@ public class ControleServicos {
     }
 
     public boolean cadastrarProfissaoAdm(Profissao profissao) throws Exception {
+        profissoesTxt = new BufferedWriter(new FileWriter(arquivo, true));
         boolean registeredService = true;
         profissao.setCodigo(codigoAleatorio());
         BufferedReader br = new BufferedReader(new FileReader(arquivo));

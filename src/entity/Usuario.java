@@ -41,10 +41,17 @@ public class Usuario {
 	}
 
 	public void setEmail(String email) throws IOException {
-		if (!email.contains("@")) {
-			throw new IOException("Email inválido");
-		} else {
+		int cont = 0;
+		for (int i = 0; i < email.length(); i++) {
+			if (email.charAt(i) == '@') {
+				cont++;
+			}
+		}
+
+		if (cont == 1) {
 			this.email = email;
+		} else {
+			throw new IOException("Email inválido");
 		}
 	}
 	public String getEmail() {

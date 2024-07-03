@@ -1,0 +1,14 @@
+863;Pedreiro
+530;Personal Trainer
+883;Pintor
+899;Jardineiro
+554;Eletricista
+576;Fotógrafo
+427;Doméstica
+414;Carpinteiro
+170;Montador de móveis
+816;Mecânico
+974;Contador
+209;Apicultor
+21;Pescador
+520;Encanador

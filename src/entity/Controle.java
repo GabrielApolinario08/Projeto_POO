@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class Controle {
     private BufferedWriter usuariosTxt;
-    private final String arquivo = "usuarios.txt";
+    private static final String arquivo = "usuarios.txt";
     private boolean logado;
 
     private String tipoUser;
@@ -97,24 +97,40 @@ public class Controle {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String linha;
             String linhaProf;
-            String tipo, nome, profissao;
-            int ver = 0;
+            String tipo;
             while ((linha = br.readLine()) != null) {
 
                 String[] campos = linha.split(";");
                 tipo = campos[0];
                 if(tipo.equals("Profissional")){
-                    linhaProf = campos[2] + "(" + campos[5] + ")";
+                    linhaProf = campos[2] + " (" + campos[5] + ")";
                     profissionalList.add(linhaProf);
                 }
-
-
-
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return profissionalList.toArray(new String[0]);
+    }
+
+    public static String[] carregarAdm() {
+        List<String> admList = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
+            String linha;
+            String linhaAdm;
+            String tipo;
+            while ((linha = br.readLine()) != null) {
+
+                String[] campos = linha.split(";");
+                tipo = campos[0];
+                if(tipo.equals("ADM")){
+                    admList.add(linha);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return admList.toArray(new String[0]);
     }
     public boolean logarControle(Usuario user) throws IOException {
         FileReader fr = new FileReader(arquivo);

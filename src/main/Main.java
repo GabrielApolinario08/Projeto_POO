@@ -19,6 +19,19 @@ public class Main {
     static Controle controle = new Controle();
 
     public static void main(String[] args) throws Exception {
+        ControleServicos controleServicos = new ControleServicos();
+        System.out.println(controleServicos.carregarProfissoesDeArquivo().length);
+        if (controleServicos.carregarProfissoesDeArquivo().length == 0) {
+            String[] profissoes = {"Pedreiro", "Personal Trainer", "Pintor", "Jardineiro", "Eletricista", "Fotógrafo", "Doméstica", "Carpinteiro", "Montador de móveis", "Mecânico", "Contador", "Apicultor", "Pescador", "Encanador"};
+            for (String profissao : profissoes) {
+                controleServicos.cadastrarProfissaoAdm(new Profissao(profissao, controleServicos.codigoAleatorio()));
+            }
+        }
+
+        if (controle.carregarAdm().length == 0) {
+            controle.cadastrarAdmControle(new Adm(controle.codigoAleatorio(), "ADM", "adm@email", "adm12345", "ADM"));
+        }
+
         Controle controle = new Controle();
         int opc;
         boolean continueOuterLoop = true;
@@ -58,7 +71,6 @@ public class Main {
 
                 if (user.getTipo().equals("ADM")) {
                     continueOuterLoop = true;
-                    ControleServicos controleServicos = new ControleServicos();
                     Object[] optionsCadastroProfissao = {"Cadastrar novo serviço", "Cadastrar ADM", "Mostrar Serviços", "Deletar Serviço", "Sair"};
                     while (continueOuterLoop) {
                         opc = JOptionPane.showOptionDialog(null, "Selecione uma das opções:", "Menu - ADM", 0, 3, null, optionsCadastroProfissao, optionsCadastroProfissao[0]);
@@ -85,7 +97,7 @@ public class Main {
                     Object[] optionsCliente = {"Visualizar profissionais", "Sair"};
 
                     while (true) {
-                        opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - Profissional", 0, 2, null, optionsCliente, optionsCliente[0]);
+                        opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - Profissional", 0, JOptionPane.INFORMATION_MESSAGE, null, optionsCliente, optionsCliente[0]);
                         switch (opc) {
                             case 0:
                                 String[] profissionais = controle.carregarProfissionais("usuarios.txt");
@@ -112,7 +124,7 @@ public class Main {
                     Object[] optionsCliente = {"Visualizar profissionais", "Sair"};
 
                     while (true) {
-                        opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - Cliente", 0, 2, null, optionsCliente, optionsCliente[0]);
+                        opc = JOptionPane.showOptionDialog(null,"Selecione uma das opções:", "Menu - Cliente", 0, JOptionPane.INFORMATION_MESSAGE, null, optionsCliente, optionsCliente[0]);
                         switch (opc) {
                             case 0:
                                 String[] profissionais = controle.carregarProfissionais("usuarios.txt");
