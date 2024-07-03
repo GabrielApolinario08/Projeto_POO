@@ -15,3 +15,7 @@ ADM;86;ADM23;adm@.;chocolate
 Profissional;94;carlos;carlos@;carlos12;cachorro
 Profissional;14;carlert;carlex@;12345678;cachorro
 ADM;728;aaaaa;aaaa@;12345677
+ADM;230;carlaoMilgrau;carlonMG@;12345678
+ADM;7;caio;caio@dad;chocolate
+ADM;953;caio;cc@;chocolate
+ADM;722;cae;caio@@@;chocolate

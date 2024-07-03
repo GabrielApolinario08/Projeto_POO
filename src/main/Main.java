@@ -57,6 +57,7 @@ public class Main {
                 // USER = ADM
 
                 if (user.getTipo().equals("ADM")) {
+                    continueOuterLoop = true;
                     ControleServicos controleServicos = new ControleServicos();
                     Object[] optionsCadastroProfissao = {"Cadastrar novo serviço", "Cadastrar ADM", "Mostrar Serviços", "Deletar Serviço", "Sair"};
                     while (continueOuterLoop) {
@@ -91,7 +92,7 @@ public class Main {
                                 JComboBox<String> profissional = new JComboBox<>(profissionais);
                                 profissional.setSelectedItem("Selecione uma opção");
 
-                                JOptionPane.showMessageDialog(null, profissional, "Profissionais disponiveis", JOptionPane.OK_OPTION);
+                                JOptionPane.showMessageDialog(null, profissional, "Profissionais disponíveis", JOptionPane.OK_OPTION);
 
                                 break;
                             case 1:
@@ -311,39 +312,31 @@ public class Main {
         int opt;
         boolean loop = true;
         while (loop) {
-            opt = JOptionPane.showOptionDialog(null, message, "Cadastrar ADM", 0, 2,null, options, options[0]);
+            opt = JOptionPane.showOptionDialog(null, message, "Cadastrar ADM", 0, JOptionPane.QUESTION_MESSAGE,null, options, options[0]);
             switch (opt){
-                case 1:
+                case 0:
                     try {
-
-
                         adm = new Adm(controle.codigoAleatorio(), nome.getText(), email.getText(), senha.getText(), "ADM");
                         if (controle.emailExistente(adm.getEmail())) throw new IOException("Email Existente!");
                         controle.cadastrarAdmControle(adm);
                         JOptionPane.showMessageDialog(null, "ADM cadastrado com sucesso!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                        loop = false;
                         break;
                     } catch (IOException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     }
-                case 2:
-                    JOptionPane.showMessageDialog(null, "Voltando!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+                case 1:
                     loop = false;
                     break;
-
+                case -1:
+                    JOptionPane.showMessageDialog(null, "Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                    System.exit(0);
             }
-
-
         }
     }
 
     public static void getServices(ControleServicos controleAdm) throws IOException {
-        /*List<String> allServices = new ArrayList<>(Arrays.asList(controleAdm.mostrarProfissao()));
-        String[] services = new String[allServices.size()];
-        for (int i = 0 ; i < allServices.size() ; i++) {
-            String[] campos = allServices.get(i).split(";");
-            services[i] = campos[0] + ") " + campos[1];
-        }*/
-
         JComboBox<String> profissional = new JComboBox<>(controleAdm.mostrarProfissao());
         JOptionPane.showMessageDialog(null, profissional, "Profissionais disponíveis", JOptionPane.OK_OPTION);
     }
@@ -376,4 +369,3 @@ public class Main {
     }
 
 }
-
