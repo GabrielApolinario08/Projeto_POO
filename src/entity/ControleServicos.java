@@ -5,7 +5,7 @@ import java.util.*;
 
 public class ControleServicos {
     private BufferedWriter profissoesTxt;
-    private final String arquivo = "profissoes.txt";
+    private static final String arquivo = "profissoes.txt";
 
     public ControleServicos() {
         try {
@@ -33,6 +33,27 @@ public class ControleServicos {
         profissoesTxt.close();
         return true;
 
+    }
+
+    public static String[] carregarProfissoesDeArquivo() {
+        List<String> profissaoList = new ArrayList<>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(arquivo));
+            String linha;
+            String linhaProf;
+            while ((linha = br.readLine()) != null) {
+
+                for (int i = 0; i < linha.length(); i++) {
+                    if (linha.charAt(i) == ';') {
+                        linhaProf = linha.substring(i + 1, linha.length());
+                        profissaoList.add(linhaProf);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return profissaoList.toArray(new String[0]);
     }
 
     public String[] mostrarProfissao() throws IOException {

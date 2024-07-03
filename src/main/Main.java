@@ -90,8 +90,9 @@ public class Main {
                             case 0:
                                 String[] profissionais = controle.carregarProfissionais("usuarios.txt");
                                 JComboBox<String> profissional = new JComboBox<>(profissionais);
-                                profissional.setSelectedItem("Selecione uma opção");
-                                JOptionPane.showMessageDialog(null, profissional, "Profissionais disponíveis", JOptionPane.OK_OPTION);
+                                profissional.setSelectedItem("Opções");
+
+                                JOptionPane.showMessageDialog(null, profissional, "Profissionais disponíveis", JOptionPane.INFORMATION_MESSAGE);
                                 break;
                             case 1:
                                 JOptionPane.showMessageDialog(null, "Deslogando!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
@@ -116,10 +117,9 @@ public class Main {
                             case 0:
                                 String[] profissionais = controle.carregarProfissionais("usuarios.txt");
                                 JComboBox<String> profissional = new JComboBox<>(profissionais);
-                                profissional.setSelectedItem("Selecione uma opção");
+                                profissional.setSelectedItem("Opções");
 
-                                JOptionPane.showMessageDialog(null, profissional, "Profissionais disponíveis", JOptionPane.ERROR_MESSAGE);
-
+                                JOptionPane.showMessageDialog(null, profissional, "Profissionais disponíveis", JOptionPane.INFORMATION_MESSAGE);
                                 break;
                             case 1:
                                 JOptionPane.showMessageDialog(null, "Deslogando!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
@@ -134,7 +134,6 @@ public class Main {
                             break;  // Sai do loop interno
                         }
                     }
-
                 }
             }
         } while (true);
@@ -183,13 +182,14 @@ public class Main {
     }
 
     public static void cadastrar() throws Exception {
+        ControleServicos controleServicos = new ControleServicos();
         Object[] optionsMenu = {"Cliente", "Profissional", "Voltar"};
         int opc = JOptionPane.showOptionDialog(null, "Cadastrar como:", "Menu - cadastrar", 0, 3, null, optionsMenu, optionsMenu[0]);
         Object[] optionsCad;
         JTextField nome = new JTextField();
         JTextField email = new JTextField();
         JTextField senha = new JTextField();
-        String[] profissoes = controle.carregarProfissoesDeArquivo("profissoes.txt");
+        String[] profissoes = controleServicos.carregarProfissoesDeArquivo();
         JComboBox<String> profissao = new JComboBox<>(profissoes);
         profissao.insertItemAt("Selecione uma opção", 0);
         profissao.setSelectedItem("Selecione uma opção");
@@ -335,10 +335,10 @@ public class Main {
     public static void getServices(ControleServicos controleAdm) throws IOException {
         JComboBox<String> profissional = new JComboBox<>(controleAdm.mostrarProfissao());
         Object[] message = {
-                "Profissionais:", profissional
+                "Serviços:", profissional
         };
         Object[] options = {"OK"};
-        int opc = JOptionPane.showOptionDialog(null, message, "Profissionais disponíveis",
+        int opc = JOptionPane.showOptionDialog(null, message, "Serviços disponíveis",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
                 null, options, options[0]);
         if (opc == -1) {
@@ -348,30 +348,32 @@ public class Main {
     }
 
     public static void deletService(ControleServicos controleServicos) throws Exception {
-        JTextField profissaoField = new JTextField();
         Object[] opcoes = {"OK", "Voltar"};
         boolean continuarLoop = true;
         while (continuarLoop) {
-            int opc = JOptionPane.showOptionDialog(null, profissaoField, "Deletar - Profissão", 0, 2, null, opcoes, opcoes[0]);
-
+            JComboBox<String> profissao = new JComboBox<>(controleServicos.mostrarProfissao());
+            Object[] message = {
+                    "Selecione um serviço para deletar:", profissao
+            };
+            Object[] options = {"OK", "Voltar"};
+            int opc = JOptionPane.showOptionDialog(null, message, "Serviços",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
+                    null, options, options[0]);
             switch (opc) {
                 case 0 -> {
-                    String[] allServices = controleServicos.mostrarProfissao();
-                    JComboBox<String> profissional = new JComboBox<>(allServices);
-                    JOptionPane.showMessageDialog(null, profissional, "Profissionais disponíveis", JOptionPane.OK_OPTION);
-                    System.out.println((String) profissional.getSelectedItem());
-                    String itemExcluido = (String) profissional.getSelectedItem();
+                    System.out.println((String) profissao.getSelectedItem());
+                    String itemExcluido = (String) profissao.getSelectedItem();
+                    assert itemExcluido != null;
                     controleServicos.deletServicoControle(itemExcluido);
-                    JOptionPane.showMessageDialog(null, "Serviço deletado com sucesso!!", "alerta", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Serviço deletado com sucesso!!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                     continuarLoop = false;
                 }
                 case 1 -> continuarLoop = false;
-                default ->
-                        JOptionPane.showInternalMessageDialog(null, "Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                default -> {
+                    JOptionPane.showInternalMessageDialog(null, "Fim do programa!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
+                    System.exit(0);
+                }
             }
-            // CARLIN AJEITAR PARA QUANDO ELE SAIR JÀ VOLTAR COMO ADM LOGADO
-
         }
     }
-
 }

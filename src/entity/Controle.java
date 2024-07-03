@@ -37,25 +37,6 @@ public class Controle {
     }
 
 
-    public static String[] carregarProfissoesDeArquivo(String fileName) {
-        List<String> profissaoList = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-            String linha;
-            String linhaProf;
-            while ((linha = br.readLine()) != null) {
-
-                for (int i = 0; i < linha.length(); i++) {
-                    if (linha.charAt(i) == ';') {
-                        linhaProf = linha.substring(i + 1, linha.length());
-                        profissaoList.add(linhaProf);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return profissaoList.toArray(new String[0]);
-    }
 
     public boolean emailExistente(String email) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(arquivo));
