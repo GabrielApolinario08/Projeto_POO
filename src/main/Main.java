@@ -24,6 +24,7 @@ public class Main {
         boolean continueOuterLoop = true;
         do {
             System.out.println(controle.isLogado());
+
             if (!controle.isLogado()) {
                 try {
                     Object[] optionsMenu = {"Entrar", "Cadastrar", "Sair"};
@@ -52,11 +53,14 @@ public class Main {
                     JOptionPane.showMessageDialog(null, "Opção inválida.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
 
-            } //para quem já tá logado (ADM)
+            }
+
+            //para quem já tá logado (ADM)
             else {
                 // USER = ADM
-
-                if (user.getTipo().equals("ADM")) {
+                System.out.println(tipoUser);
+                if (tipoUser.equals("ADM")) {
+                    continueOuterLoop = true;
                     Adm adm = new Adm();
                     ControleServicos controleServicos = new ControleServicos();
                     Object[] optionsCadastroProfissao = {"Cadastrar Serviço", "Cadastrar ADM", "Mostrar Serviços", "Deletar Serviço", "Sair"};
