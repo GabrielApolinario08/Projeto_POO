@@ -314,7 +314,7 @@ public class Main {
         while (loop) {
             opt = JOptionPane.showOptionDialog(null, message, "Cadastrar ADM", 0, 2,null, options, options[0]);
             switch (opt){
-                case 1:
+                case 0:
                     try {
 
 
@@ -326,7 +326,7 @@ public class Main {
                     } catch (IOException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     }
-                case 2:
+                case 1:
                     JOptionPane.showMessageDialog(null, "Voltando!", "Mensagem", JOptionPane.INFORMATION_MESSAGE);
                     loop = false;
                     break;
